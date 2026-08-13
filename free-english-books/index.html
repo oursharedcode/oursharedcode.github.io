@@ -3,23 +3,100 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How did the developer pass the exam?</title>
+<title>From Band 5.5 to Band 8 — A True Story</title>
 <meta name="robots" content="noindex">
 <style>
-  body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 3rem auto; padding: 0 1.25rem; line-height: 1.6; color: #222; }
-  a { color: #0a5ea6; }
-  .links { margin-top: 2rem; }
-  .links a { display: inline-block; margin-right: 1.5rem; }
-  .note { margin-top: 3rem; font-size: 0.9rem; color: #666; }
+  :root {
+    /* This page defines its own dark palette below, so tell the browser to
+       stop auto-inverting. Without it, Chrome's Android "auto dark theme"
+       rewrites the brand buttons — the yellow one came out white-on-yellow,
+       which is both off-brand and hard to read. */
+    color-scheme: light dark;
+    --ink: #1e2430;
+    --muted: #5a6270;
+    --bg: #fdfcfa;
+    --card: #fff;
+    --rule: #e6e2da;
+    --link: #0a5ea6;
+    --kofi: #ff5e5b;
+    --bmc: #ffdd00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e8e6e1; --muted: #a4a9b3; --bg: #15171c;
+      --card: #1e2128; --rule: #2e323b; --link: #7ab6f0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    max-width: 40rem; margin: 0 auto; padding: 3rem 1.25rem 4rem;
+    line-height: 1.65; color: var(--ink); background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 { font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.2; margin: 0 0 1.75rem; letter-spacing: -.01em; }
+  p { margin: 0 0 1.25rem; }
+  a { color: var(--link); }
+  .lede { font-size: 1.05rem; }
+
+  /* ---- Support buttons ---------------------------------------------------
+     Big, obvious and pleasant to hit: 56px tall, full width on a phone, side
+     by side once there is room. Each carries its provider's own colour and an
+     inline SVG cup, so the button looks like the page it opens and there is
+     no external request to make it work.
+     No countdowns, no fake scarcity, no invented totals: the paragraph above
+     promises the tip is voluntary and unnecessary, and a button that argued
+     otherwise would contradict it on the same screen. */
+  .support { margin: 2.25rem 0 1rem; display: flex; flex-wrap: wrap; gap: .85rem; }
+  .btn {
+    flex: 1 1 15rem;
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+    min-height: 3.5rem; padding: .9rem 1.4rem;
+    border-radius: 999px; border: 0;
+    font: 600 1.05rem/1.2 inherit; text-decoration: none; text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,.10), 0 8px 20px -6px rgba(0,0,0,.22);
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+    position: relative; overflow: hidden;
+  }
+  .btn svg { flex: none; }
+  .btn-kofi { background: var(--kofi); color: #fff; }
+  .btn-bmc  { background: var(--bmc);  color: #10121a; }
+  .btn:hover, .btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,.14), 0 14px 28px -8px rgba(0,0,0,.3);
+    filter: saturate(1.08);
+  }
+  .btn:active { transform: translateY(0); }
+  .btn:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+  /* A slow sheen that crosses the button, so the pair reads as tappable at a
+     glance on a page that is otherwise plain text. */
+  .btn::after {
+    content: ""; position: absolute; inset: 0 auto 0 -60%;
+    width: 55%; transform: skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+    animation: sheen 4.5s ease-in-out infinite;
+  }
+  .btn-bmc::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent); }
+  @keyframes sheen {
+    0%, 62% { left: -60%; }
+    92%, 100% { left: 115%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .btn::after { transition: none; animation: none; }
+    .btn::after { display: none; }
+  }
+  .support-note { margin: 0 0 2.5rem; font-size: .92rem; color: var(--muted); }
+
+  .note { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: .92rem; color: var(--muted); }
+  .note a { color: var(--link); }
 </style>
 </head>
 <body>
-<h1>How did the developer pass the exam?</h1>
+<h1>From Band 5.5 to Band 8 — A True Story</h1>
 
-<p>
-  I built a set of free English-preparation books after going through the exam
-  myself. They're free to download, with no sign-up and no account, at
-  <a href="https://freeieltsbooks.net/" rel="noopener">freeieltsbooks.net</a>.
+<p class="lede">
+  Hi friends,<br>
+  I created <a href="https://freeieltsbooks.net/" rel="noopener">freeieltsbooks.net</a>.
 </p>
 
 <p>
@@ -29,15 +106,38 @@
 </p>
 
 <p>
-  If one of the books helped you and you'd like to support the work, you can
-  leave a voluntary tip here. It only ever goes toward hosting and domain
+  I passed the exam myself at band 8, and decided to share free English exam
+  preparation books. They're free to download, with no sign-up and no account,
+  at <a href="https://freeieltsbooks.net/" rel="noopener">freeieltsbooks.net</a>.
+</p>
+
+<p>
+  You can leave a voluntary tip here. It covers hosting, domain, translation
   costs &mdash; nothing is sold, and it isn't required to use any of the books.
 </p>
 
-<div class="links">
-  <a href="https://ko-fi.com/freeenglishbooks" rel="noopener">Ko-fi</a>
-  <a href="https://buymeacoffee.com/freeenglishbooks" rel="noopener">Buy Me a Coffee</a>
+<div class="support">
+  <a class="btn btn-kofi" href="https://ko-fi.com/freeenglishbooks" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 5h12a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V6a1 1 0 0 1 1-1Z" fill="currentColor" opacity=".95"/>
+      <path d="M17 7h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M9.6 8.6c.7-.8 1.9-.5 2.1.5.2-1 1.4-1.3 2.1-.5.6.7.3 1.7-.6 2.4l-1.5 1.2-1.5-1.2c-.9-.7-1.2-1.7-.6-2.4Z" fill="#ff5e5b"/>
+      <path d="M4 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    Support me on Ko-fi
+  </a>
+  <a class="btn btn-bmc" href="https://buymeacoffee.com/freeenglishbooks" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V8Z" fill="currentColor"/>
+      <path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M8 5.2c0-.8 1-.9 1-1.7M11 5.2c0-.8 1-.9 1-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M4 20.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    Buy me a coffee
+  </a>
 </div>
+
+<p class="support-note">Any amount, one time. It opens on their site, not mine.</p>
 
 <p class="note">
   &larr; <a href="https://freeieltsbooks.net/">Back to the books</a>
