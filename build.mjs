@@ -1,35 +1,98 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>From Band 5.5 to Band 8 — A True Story</title>
-<meta name="description" content="How I went from band 5.5 to band 8 in nineteen months, and why I wrote free English exam preparation books.">
-<!--
-  GENERATED FILE — edit content.mjs and run `node build.mjs`, not this.
+/**
+ * Build the story page in six languages.
+ *
+ *   node build.mjs
+ *
+ * Emits, from content.mjs:
+ *
+ *   free-english-books/index.html          canonical English
+ *   free-english-books/en/index.html       English at the /en postfix
+ *   free-english-books/{hi,vi,pt-br,zh,ar}/index.html
+ *
+ * No dependencies and no install step: GitHub Pages serves whatever is
+ * committed here, so the generated HTML is committed alongside this script.
+ * Run it and commit the diff whenever content.mjs changes.
+ *
+ * Why generate at all, when the repo has three static files and no toolchain:
+ * the six pages differ only in their text. Hand-maintaining six copies of the
+ * stylesheet, the hreflang block and the two payment buttons is how the
+ * Arabic page ends up a version behind the English one, in a way nobody who
+ * doesn't read Arabic would notice.
+ */
 
-  Indexable since 2026-08-13. This carried `noindex` from the months when it
-  was a bare support stub: two payment buttons under a title promising a story
-  it did not tell, which is a page worth keeping out of search results. The
-  story is now here, so the reason is gone.
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-  It was never a privacy control either — the page is linked by name from the
-  homepage of freeieltsbooks.net, so `noindex` hid it from readers looking for
-  it and from nobody else.
+import { BASE_URL, BCP47, BMC_URL, BOOKS_URL, CONTENT, KOFI_URL, LOCALES, RTL } from './content.mjs';
 
-  The title deliberately carries no trademark and targets no branded query, so
-  this page ranks on its own account and never competes for the mark. If that
-  ever changes, the `noindex` comes back with it.
--->
-<link rel="canonical" href="https://www.oursharedcode.com/free-english-books/">
-<link rel="alternate" hreflang="en" href="https://www.oursharedcode.com/free-english-books/">
-<link rel="alternate" hreflang="hi" href="https://www.oursharedcode.com/free-english-books/hi/">
-<link rel="alternate" hreflang="vi" href="https://www.oursharedcode.com/free-english-books/vi/">
-<link rel="alternate" hreflang="pt-BR" href="https://www.oursharedcode.com/free-english-books/pt-br/">
-<link rel="alternate" hreflang="zh-Hans" href="https://www.oursharedcode.com/free-english-books/zh/">
-<link rel="alternate" hreflang="ar" href="https://www.oursharedcode.com/free-english-books/ar/">
-<link rel="alternate" hreflang="x-default" href="https://www.oursharedcode.com/free-english-books/">
-<style>
+const here = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(here, 'free-english-books');
+
+// The canonical English URL is the bare directory, not /en. It is the URL that
+// has been published and linked since 2026-08-13, it is the one the UDRP
+// memorandum cites, and rehoming a cited URL to gain a two-letter suffix buys
+// nothing. /en exists because the localised pages need a stable "English"
+// target that sits in the same shape as the others; it serves the same page
+// and points its canonical here, so search engines index one English page.
+const canonicalFor = (locale) => (locale === 'en' ? `${BASE_URL}/` : `${BASE_URL}/${locale}/`);
+
+// hreflang, on every page, listing every page. x-default is the canonical
+// English URL rather than /en, for the same reason.
+function alternates(locale) {
+  const rows = LOCALES.map(
+    (l) =>
+      `<link rel="alternate" hreflang="${BCP47[l]}" href="${canonicalFor(l)}">`,
+  );
+  rows.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}/">`);
+  return rows.map((r) => `${r}\n`).join('');
+}
+
+/*
+  The "English" button, on the five translated pages only.
+
+  It is deliberately not styled like the two payment buttons: those are the
+  providers' own colours and they are the only things on the page anyone is
+  being invited to press. A language control that competed with them would
+  read as a third offer. This one is an outlined pill, quiet, above the
+  heading, where a reader who cannot read the page will look first.
+
+  The label stays the English word "English" in all five. Localising it to
+  "अंग्रेज़ी" would be correct and useless: the person who needs this button is
+  the person who cannot read the page it sits on.
+*/
+function englishButton(c) {
+  return `<p class="lang">
+  <a class="lang-btn" href="${BASE_URL}/en/" hreflang="en" lang="en" dir="ltr">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" stroke="currentColor" stroke-width="1.7"/>
+    </svg>
+    ${c.englishLabel}
+  </a>
+</p>
+
+`;
+}
+
+// On the two English pages, the same slot carries the other five languages, so
+// the switch works in both directions rather than only inwards.
+function languageRow(current) {
+  const links = LOCALES.filter((l) => l !== 'en' && l !== current)
+    .map(
+      (l) =>
+        `<a class="lang-btn" href="${canonicalFor(l)}" hreflang="${BCP47[l]}" lang="${BCP47[l]}"` +
+        `${RTL.includes(l) ? ' dir="rtl"' : ''}>${CONTENT[l].nativeName}</a>`,
+    )
+    .join('\n  ');
+  return `<p class="lang lang-row">
+  ${links}
+</p>
+
+`;
+}
+
+const STYLE = `<style>
   :root {
     /* This page defines its own dark palette below, so tell the browser to
        stop auto-inverting. Without it, Chrome's Android "auto dark theme"
@@ -130,28 +193,66 @@
 
   .note { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: .92rem; color: var(--muted); }
   .note a { color: var(--link); }
-</style>
+</style>`;
+
+const KOFI_SVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 5h12a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V6a1 1 0 0 1 1-1Z" fill="currentColor" opacity=".95"/>
+      <path d="M17 7h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M9.6 8.6c.7-.8 1.9-.5 2.1.5.2-1 1.4-1.3 2.1-.5.6.7.3 1.7-.6 2.4l-1.5 1.2-1.5-1.2c-.9-.7-1.2-1.7-.6-2.4Z" fill="#ff5e5b"/>
+      <path d="M4 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>`;
+
+const BMC_SVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V8Z" fill="currentColor"/>
+      <path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M8 5.2c0-.8 1-.9 1-1.7M11 5.2c0-.8 1-.9 1-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M4 20.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>`;
+
+function page(locale) {
+  const c = CONTENT[locale];
+  const rtl = RTL.includes(locale);
+  const isEnglish = locale === 'en';
+
+  // In RTL the "back" arrow points right, because that is the direction the
+  // reader came from. A hard-coded ← would send them the wrong way.
+  const backArrow = rtl ? '&rarr;' : '&larr;';
+
+  return `<!doctype html>
+<html lang="${BCP47[locale]}"${rtl ? ' dir="rtl"' : ''}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${c.title}</title>
+<meta name="description" content="${c.description}">
+<!--
+  GENERATED FILE — edit content.mjs and run \`node build.mjs\`, not this.
+
+  Indexable since 2026-08-13. This carried \`noindex\` from the months when it
+  was a bare support stub: two payment buttons under a title promising a story
+  it did not tell, which is a page worth keeping out of search results. The
+  story is now here, so the reason is gone.
+
+  It was never a privacy control either — the page is linked by name from the
+  homepage of freeieltsbooks.net, so \`noindex\` hid it from readers looking for
+  it and from nobody else.
+
+  The title deliberately carries no trademark and targets no branded query, so
+  this page ranks on its own account and never competes for the mark. If that
+  ever changes, the \`noindex\` comes back with it.
+-->
+<link rel="canonical" href="${canonicalFor(locale)}">
+${alternates(locale)}${STYLE}
 </head>
 <body>
-<p class="lang lang-row">
-  <a class="lang-btn" href="https://www.oursharedcode.com/free-english-books/hi/" hreflang="hi" lang="hi">हिन्दी</a>
-  <a class="lang-btn" href="https://www.oursharedcode.com/free-english-books/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
-  <a class="lang-btn" href="https://www.oursharedcode.com/free-english-books/pt-br/" hreflang="pt-BR" lang="pt-BR">Português</a>
-  <a class="lang-btn" href="https://www.oursharedcode.com/free-english-books/zh/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
-  <a class="lang-btn" href="https://www.oursharedcode.com/free-english-books/ar/" hreflang="ar" lang="ar" dir="rtl">العربية</a>
-</p>
-
-<h1>From Band 5.5 to Band 8 — A True Story</h1>
+${isEnglish ? languageRow(locale) : englishButton(c)}<h1>${c.title}</h1>
 
 <p class="lede">
-  Hi friends,<br>
-  I created <a href="https://freeieltsbooks.net/" rel="noopener">freeieltsbooks.net</a>.
+  ${c.lede}
 </p>
 
 <p>
-  This page is mine personally &mdash; it isn't part of that site, and it isn't
-  affiliated with, endorsed by, or connected to IELTS, the British Council,
-  IDP, or Cambridge Assessment English.
+  ${c.affiliation}
 </p>
 
 <!--
@@ -175,46 +276,11 @@
   can promise a band, and a personal account that ends "so you will get an 8"
   would contradict the books it links to.
 -->
-<p>
-  I started at band 5.5.
-</p>
-
-<p>
-  The first thing that changed wasn't my English. I told myself <em>you can do
-  it</em> &mdash; and on the days that didn't feel true, I told myself again.
-  Motivation looks like the least practical thing on this list. It's the reason
-  the rest of it lasted nineteen months instead of two weeks.
-</p>
-
-<p>
-  Then I stopped writing in general words. I'd write <em>a bad thing</em> where
-  I meant <em>an economic disaster</em>. That vagueness was most of what was
-  holding my score down &mdash; the ideas were there, and the language flattened
-  them. I started a notebook of collocations, the words that live next to each
-  other, and kept adding to it until the phrases came out without being fetched.
-</p>
-
-<p>
-  For speaking, I recorded my own voice and listened back. It's uncomfortable,
-  and it's the fastest way to hear what an examiner hears. Then I listened to
-  the news and to podcasts for the rhythm rather than the vocabulary &mdash;
-  where a fluent speaker slows down, runs words together, stops &mdash; and
-  imitated it.
-</p>
-
-<p>
-  Nineteen months of daily practice took me from 5.5 to 8.
-</p>
-
-<p>
-  Afterwards I decided to share what I'd worked out, as free English exam
-  preparation books. They're free to download, with no sign-up and no account,
-  at <a href="https://freeieltsbooks.net/" rel="noopener">freeieltsbooks.net</a>.
-</p>
+${c.story.map((p) => `<p>\n  ${p}\n</p>`).join('\n\n')}
 
 <!--
   This sentence is the canonical wording, and twenty-five other published
-  copies say the same thing: `disclaimerP5` on freeieltsbooks.net in six
+  copies say the same thing: \`disclaimerP5\` on freeieltsbooks.net in six
   locales, the IMPRINT map in books/build/build.mjs printed in all thirteen
   book editions, and the seven files of this page in six languages.
 
@@ -227,7 +293,7 @@
 
   The English is identical everywhere, down to the comma list. The five
   translations take their noun list verbatim from that locale's own
-  `disclaimerP5`, so a reader who compares this page with the imprint of the
+  \`disclaimerP5\`, so a reader who compares this page with the imprint of the
   book they just downloaded finds no daylight in their own language either.
   Each carries the same three categories with its own conjunction, because an
   asyndetic list reads as clipped rather than plain outside English.
@@ -236,7 +302,7 @@
   translations keep the word "only" (केवल, chỉ, apenas, 仅, فقط) and the
   English does not. The English sentence is the owner's own and makes the
   restriction with "nothing is sold" instead; the translations take the clause
-  from their locale's `disclaimerP5`, where "only" is what the memo's
+  from their locale's \`disclaimerP5\`, where "only" is what the memo's
   noncommercial argument rests on at ¶16. Dropping it to match the English
   would quietly widen the claim in five languages to gain a symmetry no reader
   can see, since nobody reads two of these pages at once.
@@ -245,35 +311,39 @@
   they all move together, or none of them do.
 -->
 <p>
-  You can leave a voluntary tip here. It covers hosting, domain, translation
-  costs &mdash; nothing is sold, and it isn't required to use any of the books.
+  ${c.tip}
 </p>
 
 <div class="support">
-  <a class="btn btn-kofi" href="https://ko-fi.com/freeenglishbooks" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 5h12a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V6a1 1 0 0 1 1-1Z" fill="currentColor" opacity=".95"/>
-      <path d="M17 7h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M9.6 8.6c.7-.8 1.9-.5 2.1.5.2-1 1.4-1.3 2.1-.5.6.7.3 1.7-.6 2.4l-1.5 1.2-1.5-1.2c-.9-.7-1.2-1.7-.6-2.4Z" fill="#ff5e5b"/>
-      <path d="M4 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-    Support me on Ko-fi
+  <a class="btn btn-kofi" href="${KOFI_URL}" rel="noopener">
+    ${KOFI_SVG}
+    ${c.kofi}
   </a>
-  <a class="btn btn-bmc" href="https://buymeacoffee.com/freeenglishbooks" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V8Z" fill="currentColor"/>
-      <path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M8 5.2c0-.8 1-.9 1-1.7M11 5.2c0-.8 1-.9 1-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M4 20.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-    Buy me a coffee
+  <a class="btn btn-bmc" href="${BMC_URL}" rel="noopener">
+    ${BMC_SVG}
+    ${c.bmc}
   </a>
 </div>
 
-<p class="support-note">Any amount, one time. It opens on their site, not mine.</p>
+<p class="support-note">${c.tipNote}</p>
 
 <p class="note">
-  &larr; <a href="https://freeieltsbooks.net/">Back to the books</a>
+  ${backArrow} <a href="${BOOKS_URL}">${c.back}</a>
 </p>
 </body>
 </html>
+`;
+}
+
+let written = 0;
+for (const locale of LOCALES) {
+  // English is served twice: at the canonical bare directory and at /en.
+  const dirs = locale === 'en' ? [ROOT, join(ROOT, 'en')] : [join(ROOT, locale)];
+  for (const dir of dirs) {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'index.html'), page(locale), 'utf8');
+    written += 1;
+  }
+}
+
+console.log(`Built ${written} pages in ${LOCALES.length} languages.`);
