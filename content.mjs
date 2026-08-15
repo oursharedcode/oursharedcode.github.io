@@ -33,7 +33,7 @@ export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
@@ -45,6 +45,7 @@ export const BCP47 = {
   'pt-br': 'pt-BR',
   zh: 'zh-Hans', // the books and UI are Simplified
   ar: 'ar',
+  'zh-hant': 'zh-Hant',
 };
 
 export const RTL = ['ar'];
@@ -203,6 +204,43 @@ export const CONTENT = {
     bmc: '请我喝杯咖啡',
     tipNote: '金额随意，仅一次。它会在他们的网站上打开，而不是我的网站。',
     back: '返回书籍页面',
+  },
+
+  // ------------------------------------------------- Chinese (Traditional) --
+  //
+  // Converted from `zh` via books/build/convert-zh-hant.mjs's OpenCC cn->tw
+  // profile (character shapes only, `twp`'s vocabulary table rejected — same
+  // reasoning as the manuscripts), not separately translated: this is one
+  // person's account, and re-translating it is how a plausible-but-wrong
+  // detail enters the version nobody here reads carefully. Converting it
+  // mechanically from the already-approved zh text carries zero new content.
+  //
+  // Same two typographic rules as zh, inherited by construction: no source
+  // line wrapping (every string on one line, however long — a wrapped line
+  // renders as a mid-sentence space, and Chinese has none), and —— as the
+  // Chinese dash rather than a spaced &mdash;.
+  'zh-hant': {
+    title: '從 5.5 分到 8 分 —— 一個真實的故事',
+    description: '我如何在十九個月裡從 5.5 分考到 8 分，以及我為什麼寫了免費的英語考試備考書。',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: '中文（繁體）',
+    lede: '朋友們好，<br>\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a> 是我做的。',
+    affiliation:
+      '這個頁面屬於我個人——它不是那個網站的一部分，也與 IELTS、British Council、IDP 或 Cambridge Assessment English 沒有隸屬、認可或關聯關係。',
+    story: [
+      '我是從 5.5 分開始的。',
+      '最先改變的並不是我的英語。我對自己說<em>你可以做到</em>——在那些聽起來不像真話的日子裡，我就再說一遍。在這份清單裡，動力看上去是最不實用的一項。它卻是其餘一切能堅持十九個月、而不是兩個星期的原因。',
+      '然後我不再用籠統的詞寫作。我想說的是<em>一場經濟災難</em>，寫出來卻是<em>一件壞事</em>。把我的分數壓住的，多半就是這種含糊——想法本來就在，是語言把它們壓平了。我開始記一本搭配（collocation）筆記，也就是那些常常挨在一起的詞，一直往裡加，直到這些短語不用去找就能出來。',
+      '口語方面，我錄下自己的聲音再聽回去。這並不舒服，卻是聽見考官所聽見的最快方式。之後我聽新聞和播客，聽的是節奏而不是詞彙——流利的人在哪裡放慢、在哪裡把詞連起來、在哪裡停頓——然後模仿。',
+      '十九個月的每日練習把我從 5.5 分帶到了 8 分。',
+      '後來我決定把自己摸索出來的東西分享出來，做成免費的英語考試備考書。它們可以免費下載，無需註冊、無需賬戶，就在 <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>。',
+    ],
+    tip: '你可以在這裡留下一筆自願的讚賞。它僅用於支付託管、域名與翻譯費用——所有資料均不出售，而且使用任何一本書都不需要它。',
+    kofi: '在 Ko-fi 上支持我',
+    bmc: '請我喝杯咖啡',
+    tipNote: '金額隨意，僅一次。它會在他們的網站上打開，而不是我的網站。',
+    back: '返回書籍頁面',
   },
 
   // --------------------------------------------------------------- Arabic --
