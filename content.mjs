@@ -33,7 +33,7 @@ export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
@@ -46,6 +46,7 @@ export const BCP47 = {
   zh: 'zh-Hans', // the books and UI are Simplified
   ar: 'ar',
   'zh-hant': 'zh-Hant',
+  pl: 'pl',
 };
 
 export const RTL = ['ar'];
@@ -269,5 +270,41 @@ export const CONTENT = {
     bmc: 'اشترِ لي قهوة',
     tipNote: 'أي مبلغ، مرة واحدة. يفتح على موقعهم لا على موقعي.',
     back: 'العودة إلى الكتب',
+  },
+
+  // -------------------------------------------------------------- Polish --
+  //
+  // Added 2026-08-16 alongside the site's own pl promotion (ielts_books repo,
+  // steering/adding-a-locale.md). title <- supportTitle, back <- backHome, and
+  // the tip's noun list <- the cost clause inside disclaimerP5, all copied
+  // verbatim from site/src/i18n/pl.json rather than translated fresh here, for
+  // the same reason the other five are: this page is linked by its title, and
+  // a reader comparing this page against a downloaded book's imprint must find
+  // the same claim worded the same way in their own language.
+  pl: {
+    title: 'Z band 5.5 na band 8 — prawdziwa historia',
+    description:
+      'Jak w dziewiętnaście miesięcy przeszedłem z band 5.5 na band 8 i dlaczego napisałem darmowe książki do przygotowania do egzaminu z angielskiego.',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'Polski',
+    lede:
+      'Cześć,<br>\n  to ja stworzyłem <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    affiliation:
+      'Ta strona jest moja osobiście &mdash; nie jest częścią tamtej strony i nie jest\n  powiązana z IELTS, British Council, IDP ani Cambridge Assessment English, ani\n  przez nich wspierana czy zatwierdzona.',
+    story: [
+      'Zaczynałem na band 5.5.',
+      "Pierwszą rzeczą, która się zmieniła, nie był mój angielski. Mówiłem sobie\n  <em>dasz radę</em> &mdash; a w te dni, kiedy to nie brzmiało prawdziwie, mówiłem\n  to sobie jeszcze raz. Motywacja wygląda na najmniej praktyczną rzecz na tej\n  liście. To właśnie dzięki niej reszta trwała dziewiętnaście miesięcy, a nie dwa\n  tygodnie.",
+      "Potem przestałem pisać ogólnikami. Pisałem <em>coś złego</em>, kiedy miałem na\n  myśli <em>katastrofę gospodarczą</em>. Ta niejasność w największym stopniu\n  trzymała mój wynik w miejscu &mdash; pomysły tam były, tylko język je spłaszczał.\n  Zacząłem zeszyt kolokacji, słów, które żyją obok siebie, i dopisywałem do niego,\n  aż zwroty zaczęły wychodzić same, bez szukania.",
+      "Do mówienia nagrywałem własny głos i odsłuchiwałem go. To niewygodne, ale to\n  najszybszy sposób, żeby usłyszeć to, co słyszy egzaminator. Potem słuchałem\n  wiadomości i podcastów nie dla słownictwa, tylko dla rytmu &mdash; gdzie płynnie\n  mówiąca osoba zwalnia, łączy słowa, robi przerwę &mdash; i to naśladowałem.",
+      'Dziewiętnaście miesięcy codziennej praktyki zaprowadziło mnie z 5.5 na 8.',
+      'Potem postanowiłem podzielić się tym, co wypracowałem, jako darmowe książki do\n  przygotowania do egzaminu z angielskiego. Można je pobrać za darmo, bez\n  rejestracji i bez konta, na\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    ],
+    tip:
+      'Możesz zostawić tu dobrowolny napiwek. Pokrywa on wyłącznie koszty hostingu,\n  domen i tłumaczeń &mdash; nic nie jest sprzedawane, i nie jest on wymagany do\n  korzystania z żadnej z książek.',
+    kofi: 'Wesprzyj mnie na Ko-fi',
+    bmc: 'Postaw mi kawę',
+    tipNote: 'Dowolna kwota, jednorazowo. Otwiera się na ich stronie, nie na mojej.',
+    back: 'Powrót do książek',
   },
 };

@@ -29,6 +29,7 @@
 <link rel="alternate" hreflang="zh-Hans" href="https://www.oursharedcode.com/free-english-books/zh/">
 <link rel="alternate" hreflang="ar" href="https://www.oursharedcode.com/free-english-books/ar/">
 <link rel="alternate" hreflang="zh-Hant" href="https://www.oursharedcode.com/free-english-books/zh-hant/">
+<link rel="alternate" hreflang="pl" href="https://www.oursharedcode.com/free-english-books/pl/">
 <link rel="alternate" hreflang="x-default" href="https://www.oursharedcode.com/free-english-books/">
 <style>
   :root {
@@ -90,6 +91,10 @@
      promises the tip is voluntary and unnecessary, and a button that argued
      otherwise would contradict it on the same screen. */
   .support { margin: 2.25rem 0 1rem; display: flex; flex-wrap: wrap; gap: .85rem; }
+  /* The top copy opens the page rather than following the story, so it gets
+     no leading margin and a shorter shadow — enough to read as a button pair,
+     not enough to compete with the heading that follows it. */
+  .support-top { margin: 0 0 .5rem; }
   .btn {
     flex: 1 1 15rem;
     display: flex; align-items: center; justify-content: center; gap: .6rem;
@@ -143,6 +148,37 @@
     English
   </a>
 </p>
+
+<!--
+  Duplicate of the support pair below, added 2026-08-16 at the top of the
+  page on request. Same two buttons, same links, same order — a reader who
+  never reaches the bottom (a shared screenshot, a slow connection, a link
+  that only shows the fold) still sees the choice once. The lower pair, after
+  the story, stays exactly as it was: the one a reader who came for the
+  account reaches after reading it, not instead of it.
+-->
+<div class="support support-top">
+  <a class="btn btn-kofi" href="https://ko-fi.com/freeenglishbooks" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 5h12a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V6a1 1 0 0 1 1-1Z" fill="currentColor" opacity=".95"/>
+      <path d="M17 7h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M9.6 8.6c.7-.8 1.9-.5 2.1.5.2-1 1.4-1.3 2.1-.5.6.7.3 1.7-.6 2.4l-1.5 1.2-1.5-1.2c-.9-.7-1.2-1.7-.6-2.4Z" fill="#ff5e5b"/>
+      <path d="M4 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    Apoie-me no Ko-fi
+  </a>
+  <a class="btn btn-bmc" href="https://buymeacoffee.com/freeenglishbooks" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V8Z" fill="currentColor"/>
+      <path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M8 5.2c0-.8 1-.9 1-1.7M11 5.2c0-.8 1-.9 1-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M4 20.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    Pague-me um café
+  </a>
+</div>
+
+<p class="support-note">Qualquer valor, uma única vez. Abre no site deles, não no meu.</p>
 
 <h1>De Band 5.5 a Band 8 — Uma história real</h1>
 
