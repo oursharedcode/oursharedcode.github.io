@@ -1,0 +1,4 @@
+# Authorised sellers of ad inventory on oursharedcode.com.
+# Google reads this file only from the domain root; a copy at any
+# subpath is ignored. One file here covers every page on the domain.
+google.com, pub-1213781225888339, DIRECT, f08c47fec0942fa0
