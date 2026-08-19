@@ -86,3 +86,32 @@ manual units keep every page predictable.
 Give the page real content first. Ads on thin or auto-generated pages invite a
 site-level policy review, and that review lands on the whole domain — the
 studio included. Substance on each page is what protects the rest.
+
+## Blocker: a page for children changes the rules
+
+**If a page on this domain is ever aimed at children — a kids' game, for
+instance — `/privacy/` must be updated before that page goes live, not
+after.**
+
+The policy currently states the site "is not directed at children under 13."
+Publishing a page for children makes that sentence false, and a privacy policy
+that contradicts the site is a problem in its own right, quite apart from the
+law it fails to satisfy.
+
+What the law adds: COPPA treats cookies and other persistent identifiers as
+personal information once they are collected from a child under 13, and the
+GDPR sets a consent age of 13 to 16 depending on the member state. Google, for
+its part, forbids *personalised* ads on child-directed content and expects the
+content to be tagged as child-directed.
+
+The simplest way through all of that is to **serve no ads on a children's page
+at all**, exactly as `/free-english-books/` does. AdSense enforces at the
+account level, so one mishandled child-directed page puts the studio's ads and
+the account itself at risk. Non-personalised ads on a kids' page would not earn
+enough to be worth that exposure.
+
+Three questions decide the wording of the update, and none of them can be
+answered in advance: whether the page carries ads, whether it stores anything
+(a score, a name, anything in `localStorage`), and whether it is genuinely
+directed at children rather than merely enjoyed by them. Answer those first,
+then write the section.
