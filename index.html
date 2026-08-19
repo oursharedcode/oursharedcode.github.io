@@ -3,11 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OurSharedCode</title>
-<meta http-equiv="refresh" content="0; url=/free-english-books/">
-<link rel="canonical" href="https://www.oursharedcode.com/free-english-books">
+<title>OurSharedCode — free books and free tools</title>
+<meta name="description" content="Free IELTS preparation books and a free prompt engineering studio. No accounts, no sign-ups, nothing for sale.">
+<link rel="canonical" href="https://www.oursharedcode.com/">
+<style>
+:root {
+  color-scheme: light dark;
+  --ink: #1e2430;
+  --muted: #5a6270;
+  --bg: #fdfcfa;
+  --card: #fff;
+  --rule: #e6e2da;
+  --link: #0a5ea6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8e6e1;
+    --muted: #a4a9b3;
+    --bg: #15171c;
+    --card: #1e2128;
+    --rule: #2e323b;
+    --link: #7ab6f0;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+h1 { font-size: clamp(1.7rem, 5vw, 2.2rem); line-height: 1.2; margin: 0 0 1rem; letter-spacing: -.015em; }
+h2 { font-size: 1.2rem; margin: 0 0 .5rem; letter-spacing: -.005em; }
+p { margin: 0 0 1.25rem; }
+a { color: var(--link); }
+.lede { font-size: 1.08rem; color: var(--ink); margin-bottom: 2.5rem; }
+
+/* Each project gets a card rather than a bare link: the point of this page is
+   that a reader can tell what a thing is before deciding to open it, which a
+   list of names cannot do. */
+.card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: .75rem;
+  padding: 1.5rem;
+  margin: 0 0 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .16s ease, transform .16s ease;
+}
+.card:hover, .card:focus {
+  border-color: var(--link);
+  transform: translateY(-2px);
+}
+.card p { margin: 0; color: var(--muted); }
+.card .go { display: inline-block; margin-top: .75rem; color: var(--link); font-weight: 500; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 2rem; }
+footer { color: var(--muted); font-size: .9rem; }
+footer a { color: var(--muted); }
+</style>
 </head>
 <body>
-<p><a href="/free-english-books/">Continue to Free English Books</a></p>
+
+<h1>OurSharedCode</h1>
+
+<p class="lede">I make things and give them away. There are no accounts here,
+nothing is for sale, and nothing asks for your email address.</p>
+
+<a class="card" href="/free-english-books/">
+  <h2>Free English Books</h2>
+  <p>I went from IELTS band 5.5 to band 8 over nineteen months. Afterwards I
+  wrote down what had actually worked, as free exam preparation books — free to
+  download, with no sign-up and no account.</p>
+  <span class="go">Read the story →</span>
+</a>
+
+<a class="card" href="/prompt-engineering-studio/">
+  <h2>Prompt Engineering Studio</h2>
+  <p>A drag-and-drop editor for writing better instructions for AI models,
+  assembled from labelled blocks — role, context, task, constraints, and the
+  rest. It runs entirely in your browser, so what you write stays on your own
+  machine.</p>
+  <span class="go">Open the studio →</span>
+</a>
+
+<h2 style="margin-top:3rem">Why it works this way</h2>
+<p>Every one of these started as something I needed and could not find for
+free, or could not find without handing over an email address first. Giving
+them away costs me hosting and a domain, which is a small price for work that
+was going to exist anyway.</p>
+<p>None of it needs to know who you are, so none of it asks. The books download
+without an account. The studio keeps your work in your own browser and sends it
+nowhere. If something here saves you an afternoon, that is the whole of what it
+was for.</p>
+
+<hr>
+
+<footer>
+<p><a href="/privacy/">Privacy</a></p>
+</footer>
+
 </body>
 </html>
