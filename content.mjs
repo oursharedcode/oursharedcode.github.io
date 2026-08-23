@@ -33,7 +33,7 @@ export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
@@ -47,6 +47,7 @@ export const BCP47 = {
   ar: 'ar',
   'zh-hant': 'zh-Hant',
   pl: 'pl',
+  es: 'es',
 };
 
 export const RTL = ['ar'];
@@ -306,5 +307,42 @@ export const CONTENT = {
     bmc: 'Postaw mi kawę',
     tipNote: 'Dowolna kwota, jednorazowo. Otwiera się na ich stronie, nie na mojej.',
     back: 'Powrót do książek',
+  },
+
+  // -------------------------------------------------------------- Spanish --
+  //
+  // Added 2026-08-24 alongside the site's own es promotion (ielts_books repo,
+  // 2026-08-23 — see steering/adding-a-locale.md and changelog.md). title <-
+  // supportTitle, back <- backHome, and the tip's noun list <- the cost clause
+  // inside disclaimerP5, all copied verbatim from site/src/i18n/es.json rather
+  // than translated fresh here, for the same reason the other locales are:
+  // this page is linked by its title, and a reader comparing this page against
+  // a downloaded book's imprint must find the same claim worded the same way
+  // in their own language.
+  es: {
+    title: 'De Band 5.5 a Band 8 — Una historia real',
+    description:
+      'Cómo pasé del band 5.5 al band 8 en diecinueve meses, y por qué escribí libros gratuitos de preparación para exámenes de inglés.',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'Español',
+    lede:
+      'Hola, amigos,<br>\n  yo creé <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    affiliation:
+      'Esta página es mía, personalmente &mdash; no forma parte de ese sitio y no está\n  afiliada, respaldada ni conectada con IELTS, el British Council, IDP ni\n  Cambridge Assessment English.',
+    story: [
+      'Empecé en el band 5.5.',
+      'Lo primero que cambió no fue mi inglés. Me decía a mí mismo <em>puedes\n  hacerlo</em> &mdash; y en los días en que eso no parecía cierto, me lo volvía a\n  decir. La motivación parece lo menos práctico de esta lista. Es la razón por la\n  que el resto duró diecinueve meses en lugar de dos semanas.',
+      'Después dejé de escribir con palabras generales. Escribía <em>una cosa\n  mala</em> cuando quería decir <em>un desastre económico</em>. Esa vaguedad era\n  la mayor parte de lo que frenaba mi puntuación &mdash; las ideas estaban ahí, y\n  el idioma las aplanaba. Empecé un cuaderno de colocaciones, las palabras que\n  conviven unas junto a otras, y seguí añadiendo hasta que las frases salían\n  solas, sin tener que buscarlas.',
+      'Para el speaking, grabé mi propia voz y la escuché. Es incómodo, y es la\n  forma más rápida de oír lo que oye el examinador. Después escuché noticias y\n  podcasts por el ritmo, no por el vocabulario &mdash; dónde un hablante fluido se\n  ralentiza, une las palabras, se detiene &mdash; y lo imité.',
+      'Diecinueve meses de práctica diaria me llevaron del 5.5 al 8.',
+      'Después decidí compartir lo que había descubierto, en forma de libros\n  gratuitos de preparación para exámenes de inglés. Son gratis para descargar,\n  sin registro y sin cuenta, en\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    ],
+    tip:
+      'Puedes dejar aquí una propina voluntaria. Cubre solo costos de alojamiento,\n  dominio y traducción &mdash; no se vende nada, y no es necesaria para usar\n  ninguno de los libros.',
+    kofi: 'Apóyame en Ko-fi',
+    bmc: 'Invítame a un café',
+    tipNote: 'Cualquier cantidad, una sola vez. Se abre en su sitio, no en el mío.',
+    back: 'Volver a los libros',
   },
 };
