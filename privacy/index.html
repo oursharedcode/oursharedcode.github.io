@@ -49,12 +49,13 @@ footer { color: var(--muted); font-size: .9rem; }
 <body>
 
 <h1>Privacy Policy</h1>
-<p class="updated">For <strong>www.oursharedcode.com</strong>. Last updated 19 August 2026.</p>
+<p class="updated">For <strong>www.oursharedcode.com</strong>. Last updated 1 September 2026.</p>
 
 <p class="lede">The short version: this site has no accounts, no sign-ups, and no
-database. Nothing you type into the tools here is sent to us or stored on a
-server. The one thing that does involve third parties is advertising, and this
-page explains exactly what that means and how to switch it off.</p>
+database of users. Nothing you type into the tools here is sent to us or stored
+on a server. Two things do reach a server: the ads on some pages, and a visitor
+counter that records which country a visit came from and nothing else. This page
+explains exactly what each one does and how to switch the ads off.</p>
 
 <h2>Who runs this site</h2>
 <p>OurSharedCode is an independent personal project. There is no company behind
@@ -62,9 +63,14 @@ it. You can reach the operator at
 <a href="mailto:plusminusproject@gmail.com">plusminusproject@gmail.com</a>.</p>
 
 <h2>What we collect directly</h2>
-<p>Nothing. There is no registration, no login, no contact form, no newsletter,
-and no analytics on this site. We do not ask for your name, your email address,
-or any other personal detail, and we have no database in which to keep one.</p>
+<p>No personal details. There is no registration, no login, no contact form and
+no newsletter. We do not ask for your name, your email address, or any other
+personal detail, and we have no database in which to keep one. There is no
+conventional analytics package here either — no Google Analytics, no tracking
+pixels, no profile of you built across sites. The single exception is the
+per-country visitor tally described under
+<a href="#visitor-counter">Visitor counter and map</a>, which records a country
+code and nothing that identifies you.</p>
 
 <h2>Hosting</h2>
 <p>The site is served as static files by GitHub Pages. Like any web host,
@@ -105,11 +111,40 @@ advertising script at all.</p>
 block cookies in your browser settings, which this site will tolerate without
 breaking.</p>
 
-<h2>Visitor map</h2>
-<p>The studio page may display a small world map showing roughly where recent
-visitors came from, provided by a third-party widget. It derives an approximate
-location from the IP address of the request. It does not identify you, and we
-see only aggregate dots on a map — never a list of individuals.</p>
+<h2 id="visitor-counter">Visitor counter and map</h2>
+<p>The studio page at
+<a href="/prompt-engineering-studio/">/prompt-engineering-studio/</a> shows a
+small world map with a count of visitors by country. This is our own counter, not
+a third-party widget, and it works like this:</p>
+<ul>
+  <li>When the page loads it calls a small service we run on Cloudflare Workers
+  at <code>promengi-visitor-stats.oursharedcode.workers.dev</code>. Cloudflare
+  passes that service the two-letter country code it has already worked out for
+  the connection — <code>DE</code>, <code>BR</code>, and so on. We add one to the
+  tally for that country.</li>
+  <li><strong>Your IP address is never stored.</strong> It is not saved to the
+  tally, not written to a database of ours, and not kept in any log we hold. The
+  only thing recorded against a country is a number.</li>
+  <li>So that one person reloading the page is not counted twenty times, the
+  service computes a one-way hash of your IP address, your browser's user-agent
+  string and the current date, mixed with a secret key we hold. The hash cannot
+  be turned back into an IP address, it changes every day, and it is deleted
+  automatically after 12 hours. Its only purpose is to answer "have we counted
+  this visit already?"</li>
+  <li>The counter sets <strong>no cookies</strong> and stores nothing on your
+  device.</li>
+  <li>What appears on the page is all we can see ourselves: country codes and
+  totals. There is no list of visitors, no per-person timestamps, no record of
+  which pages you viewed, and nothing that could single you out.</li>
+  <li>The tally is not shared with Google or anyone else, and it is never used for
+  advertising, ad targeting, or ad measurement.</li>
+</ul>
+<p>Cloudflare necessarily handles the request itself in order to run that service,
+under the
+<a href="https://www.cloudflare.com/privacypolicy/" rel="nofollow noopener" target="_blank">Cloudflare Privacy Policy</a>.
+If you would rather not be counted, blocking requests to
+<code>oursharedcode.workers.dev</code> in your browser or an extension leaves the
+rest of the page working normally.</p>
 
 <h2>Donation links</h2>
 <p>The page at <a href="/free-english-books/">/free-english-books/</a> links to
@@ -120,11 +155,13 @@ information about you from them. Tipping is voluntary and nothing on this
 domain is sold.</p>
 
 <h2>Your rights</h2>
-<p>Because we hold no personal data about you, there is nothing for us to
-export, correct, or delete on request — a request we would be unable to
-fulfil for the simple reason that we have nothing on file. Rights you have
-under the GDPR, the UK GDPR, or the CCPA regarding data held by Google or by
-GitHub should be directed to those companies, whose policies are linked above.</p>
+<p>We hold no personal data about you. The visitor counter keeps only country
+totals, plus a short-lived hash that cannot be reversed or traced back to you and
+that expires within 12 hours. There is therefore nothing for us to export,
+correct, or delete on request — not a refusal, simply nothing on file that is
+yours. Rights you have under the GDPR, the UK GDPR, or the CCPA regarding data
+held by Google, GitHub, or Cloudflare should be directed to those companies,
+whose policies are linked above.</p>
 
 <h2>Children</h2>
 <p>This site is intended for a general audience and is not directed at children
