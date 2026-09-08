@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Every canonical page on www.oursharedcode.com, including the ones served from
+  the prompt-engineering-studio repository — a sitemap describes a domain, not a
+  repository, and those pages have no other structural link to this one.
+
+  /free-english-books/en/ is deliberately absent. It is a second address for the
+  English page: its canonical points at /free-english-books/, and the hreflang
+  set on all ten book pages gives the "en" slot to the parent rather than to
+  /en/. Listing it here would be the only claim anywhere on the site that it is
+  a page in its own right.
+
+  lastmod dates are real. An invented or blanket-updated date is worse than no
+  date, because Google stops trusting the field and then ignores it.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.oursharedcode.com/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/about/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/contact/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/privacy/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/why-your-system-prompt-gets-ignored/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/grounding-stop-a-model-inventing-facts/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/few-shot-examples-that-work/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/chain-of-thought-is-oversold/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/output-formats-a-program-can-parse/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/a-system-prompt-you-can-steal/</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/ar/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/es/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/hi/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/pl/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/pt-br/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/vi/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/zh/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/free-english-books/zh-hant/</loc>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+
+</urlset>

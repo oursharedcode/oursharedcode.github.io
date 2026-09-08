@@ -1,0 +1,14 @@
+# www.oursharedcode.com
+#
+# Nothing here is private and nothing is blocked. The site has no accounts, no
+# admin area and no user data, so there is nothing a crawler could reach that a
+# reader could not.
+#
+# The Sitemap line is the reason this file exists: it is how a crawler that
+# arrives without following a link finds the rest of the domain, including the
+# pages served from the prompt-engineering-studio repository.
+
+User-agent: *
+Disallow:
+
+Sitemap: https://www.oursharedcode.com/sitemap.xml
