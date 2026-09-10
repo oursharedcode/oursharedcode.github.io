@@ -34,11 +34,11 @@
 
   <url>
     <loc>https://www.oursharedcode.com/prompt-engineering-studio/</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-10</lastmod>
   </url>
   <url>
     <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-10</lastmod>
   </url>
   <url>
     <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/why-your-system-prompt-gets-ignored/</loc>
@@ -63,6 +63,22 @@
   <url>
     <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/a-system-prompt-you-can-steal/</loc>
     <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/the-role-block-what-act-as-an-expert-changes/</loc>
+    <lastmod>2026-09-10</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/system-prompt-or-user-message/</loc>
+    <lastmod>2026-09-10</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/uncertainty-permission-to-say-i-dont-know/</loc>
+    <lastmod>2026-09-10</lastmod>
+  </url>
+  <url>
+    <loc>https://www.oursharedcode.com/prompt-engineering-studio/guides/testing-a-system-prompt-twelve-cases/</loc>
+    <lastmod>2026-09-10</lastmod>
   </url>
 
   <url>
