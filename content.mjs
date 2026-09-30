@@ -22,6 +22,15 @@
  * of the book they just downloaded finds no daylight. The noun list here is
  * lifted from each locale's disclaimerP5 verbatim. If the cost basis ever
  * genuinely changes, all twenty-six copies move together, or none of them do.
+ *
+ * The gift strings added 2026-10-01 (lnSub through qr, and the new tipNote)
+ * have no counterpart on freeieltsbooks.net, which carries no payment rail of
+ * any kind, so they are ordinary translations of the English. The English is
+ * the owner's: tipNote word for word, and the two button subtitles as given
+ * ("Say thanks - small tip", "Small tips welcome mate"), set with this page's
+ * dash and a comma before "mate". Scheme and brand names (Lightning, PayID,
+ * Ko-fi) stay in Latin script in every language. zh-hant is converted from zh
+ * by OpenCC like the rest of its record, not translated separately.
  */
 
 // Shared across every locale — never translated, never localised.
@@ -29,6 +38,17 @@ export const KOFI_URL = 'https://ko-fi.com/freeenglishbooks';
 export const BMC_URL = 'https://buymeacoffee.com/freeenglishbooks';
 export const BOOKS_URL = 'https://freeieltsbooks.net/';
 export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
+
+// The two gift rails added 2026-10-01 (ielts_books steering, D9). Both are
+// paid in the reader's own wallet or bank app; this page only shows them.
+// lightning.mjs derives the card's QR code and "Open in wallet" link from the
+// address, so changing it here changes all three.
+export const LIGHTNING_ADDRESS = 'curvyhockey439@walletofsatoshi.com';
+export const PAYID = 'markwebtools@oursharedcode.com';
+// The Lightning button's label. It is the network's name, so it stays in
+// Latin script on every page, the way wallets show it. The PayID label is
+// per locale: the scheme name stays, the country is translated.
+export const LIGHTNING_LABEL = 'Bitcoin Lightning';
 
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
@@ -81,7 +101,24 @@ export const CONTENT = {
       "You can leave a voluntary tip here. It covers hosting, domain, translation\n  costs &mdash; nothing is sold, and it isn't required to use any of the books.",
     kofi: 'Support me on Ko-fi',
     bmc: 'Buy me a coffee',
-    tipNote: 'Any amount, one time. It opens on their site, not mine.',
+    // The gift buttons' second lines, and the Lightning and PayID cards.
+    lnSub: 'Say thanks &mdash; small tip',
+    payid: 'PayID (Australia)',
+    payidSub: 'Small tips welcome, mate',
+    lnCardSub: 'Any amount, from any Lightning wallet.',
+    lnOpen: 'Open in wallet',
+    lnCopy: 'Copy address',
+    lnHelp: 'Scan the code with your wallet app, or copy the address into it.',
+    payidCardSub: 'For Australian bank accounts.',
+    payidCopy: 'Copy PayID',
+    payidHelp:
+      'In your bank app, choose to pay a PayID, paste this address, and enter any amount. Your bank shows the account name before you confirm.',
+    close: 'Close',
+    copied: 'Copied',
+    selected: 'Selected: copy it',
+    qr: 'QR code',
+    tipNote:
+      'Any amount, one time. You pay on their site, or in your own wallet or bank app &mdash; not on this page.',
     back: 'Back to the books',
   },
 
@@ -109,7 +146,23 @@ export const CONTENT = {
       'आप यहाँ स्वेच्छा से एक टिप दे सकते हैं। यह केवल होस्टिंग, डोमेन और अनुवाद की\n  लागत में सहायता करती है &mdash; कुछ भी बेचा नहीं जाता, और किसी भी किताब के\n  इस्तेमाल के लिए यह ज़रूरी नहीं है।',
     kofi: 'Ko-fi पर मेरा सहयोग करें',
     bmc: 'मुझे एक कॉफ़ी पिलाएँ',
-    tipNote: 'कोई भी राशि, एक बार। यह उनकी साइट पर खुलता है, मेरी साइट पर नहीं।',
+    lnSub: 'धन्यवाद कहें &mdash; छोटी-सी टिप',
+    payid: 'PayID (ऑस्ट्रेलिया)',
+    payidSub: 'छोटी टिप्स का स्वागत है, दोस्त',
+    lnCardSub: 'कोई भी राशि, किसी भी Lightning वॉलेट से।',
+    lnOpen: 'वॉलेट में खोलें',
+    lnCopy: 'पता कॉपी करें',
+    lnHelp: 'अपने वॉलेट ऐप से कोड स्कैन करें, या पता कॉपी करके उसमें डालें।',
+    payidCardSub: 'ऑस्ट्रेलियाई बैंक खातों के लिए।',
+    payidCopy: 'PayID कॉपी करें',
+    payidHelp:
+      'अपने बैंक ऐप में PayID पर भुगतान चुनें, यह पता पेस्ट करें, और कोई भी राशि डालें। पुष्टि करने से पहले आपका बैंक खाते का नाम दिखाता है।',
+    close: 'बंद करें',
+    copied: 'कॉपी हो गया',
+    selected: 'चुन लिया गया: इसे कॉपी करें',
+    qr: 'QR कोड',
+    tipNote:
+      'कोई भी राशि, एक बार। भुगतान आप उनकी साइट पर, या अपने खुद के वॉलेट या बैंक ऐप में करते हैं &mdash; इस पृष्ठ पर नहीं।',
     back: 'किताबों पर वापस जाएँ',
   },
 
@@ -139,7 +192,23 @@ export const CONTENT = {
       'Bạn có thể để lại một khoản ủng hộ tự nguyện ở đây. Nó chỉ dùng để trang trải\n  chi phí lưu trữ, tên miền và dịch thuật &mdash; không có gì được bán, và nó không\n  bắt buộc để dùng bất kỳ cuốn sách nào.',
     kofi: 'Ủng hộ tôi trên Ko-fi',
     bmc: 'Mời tôi một ly cà phê',
-    tipNote: 'Số tiền tùy ý, một lần. Nó mở trên trang của họ, không phải trang của tôi.',
+    lnSub: 'Nói lời cảm ơn &mdash; một khoản ủng hộ nhỏ',
+    payid: 'PayID (Úc)',
+    payidSub: 'Những khoản ủng hộ nhỏ đều được chào đón, bạn ơi',
+    lnCardSub: 'Số tiền tùy ý, từ bất kỳ ví Lightning nào.',
+    lnOpen: 'Mở trong ví',
+    lnCopy: 'Sao chép địa chỉ',
+    lnHelp: 'Quét mã bằng ứng dụng ví của bạn, hoặc sao chép địa chỉ vào đó.',
+    payidCardSub: 'Dành cho tài khoản ngân hàng ở Úc.',
+    payidCopy: 'Sao chép PayID',
+    payidHelp:
+      'Trong ứng dụng ngân hàng, chọn thanh toán tới một PayID, dán địa chỉ này và nhập số tiền tùy ý. Ngân hàng của bạn sẽ hiển thị tên tài khoản trước khi bạn xác nhận.',
+    close: 'Đóng',
+    copied: 'Đã sao chép',
+    selected: 'Đã chọn: hãy sao chép',
+    qr: 'Mã QR',
+    tipNote:
+      'Số tiền tùy ý, một lần. Bạn thanh toán trên trang của họ, hoặc trong ví hay ứng dụng ngân hàng của chính bạn &mdash; không phải trên trang này.',
     back: 'Quay lại trang sách',
   },
 
@@ -167,7 +236,23 @@ export const CONTENT = {
       'Você pode deixar uma contribuição voluntária aqui. Ela cobre apenas os custos de\n  hospedagem, domínios e tradução &mdash; nada é vendido, e não é necessária para\n  usar nenhum dos livros.',
     kofi: 'Apoie-me no Ko-fi',
     bmc: 'Pague-me um café',
-    tipNote: 'Qualquer valor, uma única vez. Abre no site deles, não no meu.',
+    lnSub: 'Diga obrigado &mdash; uma pequena contribuição',
+    payid: 'PayID (Austrália)',
+    payidSub: 'Pequenas contribuições são bem-vindas, amigo',
+    lnCardSub: 'Qualquer valor, de qualquer carteira Lightning.',
+    lnOpen: 'Abrir na carteira',
+    lnCopy: 'Copiar endereço',
+    lnHelp: 'Escaneie o código com o app da sua carteira, ou copie o endereço para ele.',
+    payidCardSub: 'Para contas bancárias australianas.',
+    payidCopy: 'Copiar PayID',
+    payidHelp:
+      'No app do seu banco, escolha pagar para um PayID, cole este endereço e digite qualquer valor. Seu banco mostra o nome da conta antes de você confirmar.',
+    close: 'Fechar',
+    copied: 'Copiado',
+    selected: 'Selecionado: copie-o',
+    qr: 'Código QR',
+    tipNote:
+      'Qualquer valor, uma única vez. Você paga no site deles, ou na sua própria carteira ou app do banco &mdash; não nesta página.',
     back: 'Voltar aos livros',
   },
 
@@ -206,7 +291,21 @@ export const CONTENT = {
     tip: '你可以在这里留下一笔自愿的赞赏。它仅用于支付托管、域名与翻译费用——所有资料均不出售，而且使用任何一本书都不需要它。',
     kofi: '在 Ko-fi 上支持我',
     bmc: '请我喝杯咖啡',
-    tipNote: '金额随意，仅一次。它会在他们的网站上打开，而不是我的网站。',
+    lnSub: '说声谢谢——小额赞赏',
+    payid: 'PayID（澳大利亚）',
+    payidSub: '欢迎小额赞赏，朋友',
+    lnCardSub: '金额随意，任何 Lightning 钱包都可以。',
+    lnOpen: '在钱包中打开',
+    lnCopy: '复制地址',
+    lnHelp: '用你的钱包应用扫描二维码，或把地址复制进去。',
+    payidCardSub: '适用于澳大利亚的银行账户。',
+    payidCopy: '复制 PayID',
+    payidHelp: '在你的银行应用里选择向 PayID 付款，粘贴这个地址，然后输入任意金额。确认之前，银行会显示账户名。',
+    close: '关闭',
+    copied: '已复制',
+    selected: '已选中：请复制',
+    qr: '二维码',
+    tipNote: '金额随意，仅一次。你在他们的网站上，或在你自己的钱包或银行应用里付款——不在这个页面上。',
     back: '返回书籍页面',
   },
 
@@ -243,7 +342,21 @@ export const CONTENT = {
     tip: '你可以在這裡留下一筆自願的讚賞。它僅用於支付託管、域名與翻譯費用——所有資料均不出售，而且使用任何一本書都不需要它。',
     kofi: '在 Ko-fi 上支持我',
     bmc: '請我喝杯咖啡',
-    tipNote: '金額隨意，僅一次。它會在他們的網站上打開，而不是我的網站。',
+    lnSub: '說聲謝謝——小額讚賞',
+    payid: 'PayID（澳大利亞）',
+    payidSub: '歡迎小額讚賞，朋友',
+    lnCardSub: '金額隨意，任何 Lightning 錢包都可以。',
+    lnOpen: '在錢包中打開',
+    lnCopy: '複製地址',
+    lnHelp: '用你的錢包應用掃描二維碼，或把地址複製進去。',
+    payidCardSub: '適用於澳大利亞的銀行賬戶。',
+    payidCopy: '複製 PayID',
+    payidHelp: '在你的銀行應用裡選擇向 PayID 付款，粘貼這個地址，然後輸入任意金額。確認之前，銀行會顯示賬戶名。',
+    close: '關閉',
+    copied: '已複製',
+    selected: '已選中：請複製',
+    qr: '二維碼',
+    tipNote: '金額隨意，僅一次。你在他們的網站上，或在你自己的錢包或銀行應用裡付款——不在這個頁面上。',
     back: '返回書籍頁面',
   },
 
@@ -271,7 +384,23 @@ export const CONTENT = {
       'يمكنك أن تترك هنا تبرّعًا طوعيًا. هو يغطي تكاليف الاستضافة والنطاقات والترجمة\n  فقط &mdash; لا يُباع شيء، وليس مطلوبًا لاستخدام أيٍّ من الكتب.',
     kofi: 'ادعمني على Ko-fi',
     bmc: 'اشترِ لي قهوة',
-    tipNote: 'أي مبلغ، مرة واحدة. يفتح على موقعهم لا على موقعي.',
+    lnSub: 'قل شكرًا &mdash; تبرّع صغير',
+    payid: 'PayID (أستراليا)',
+    payidSub: 'التبرّعات الصغيرة مرحّب بها، يا صديقي',
+    lnCardSub: 'أي مبلغ، من أي محفظة Lightning.',
+    lnOpen: 'افتح في المحفظة',
+    lnCopy: 'انسخ العنوان',
+    lnHelp: 'امسح الرمز بتطبيق محفظتك، أو انسخ العنوان إليه.',
+    payidCardSub: 'للحسابات المصرفية الأسترالية.',
+    payidCopy: 'انسخ PayID',
+    payidHelp:
+      'في تطبيق مصرفك، اختر الدفع إلى PayID، والصق هذا العنوان، وأدخل أي مبلغ. يعرض مصرفك اسم الحساب قبل أن تؤكّد.',
+    close: 'إغلاق',
+    copied: 'تم النسخ',
+    selected: 'تم التحديد: انسخه',
+    qr: 'رمز QR',
+    tipNote:
+      'أي مبلغ، مرة واحدة. تدفع على موقعهم، أو في محفظتك أو تطبيق مصرفك الخاص &mdash; لا على هذه الصفحة.',
     back: 'العودة إلى الكتب',
   },
 
@@ -307,7 +436,23 @@ export const CONTENT = {
       'Możesz zostawić tu dobrowolny napiwek. Pokrywa on wyłącznie koszty hostingu,\n  domen i tłumaczeń &mdash; nic nie jest sprzedawane, i nie jest on wymagany do\n  korzystania z żadnej z książek.',
     kofi: 'Wesprzyj mnie na Ko-fi',
     bmc: 'Postaw mi kawę',
-    tipNote: 'Dowolna kwota, jednorazowo. Otwiera się na ich stronie, nie na mojej.',
+    lnSub: 'Podziękuj &mdash; mały napiwek',
+    payid: 'PayID (Australia)',
+    payidSub: 'Małe napiwki mile widziane, kolego',
+    lnCardSub: 'Dowolna kwota, z dowolnego portfela Lightning.',
+    lnOpen: 'Otwórz w portfelu',
+    lnCopy: 'Kopiuj adres',
+    lnHelp: 'Zeskanuj kod aplikacją portfela albo skopiuj do niej adres.',
+    payidCardSub: 'Dla australijskich kont bankowych.',
+    payidCopy: 'Kopiuj PayID',
+    payidHelp:
+      'W aplikacji swojego banku wybierz płatność na PayID, wklej ten adres i wpisz dowolną kwotę. Zanim potwierdzisz, bank pokaże nazwę konta.',
+    close: 'Zamknij',
+    copied: 'Skopiowano',
+    selected: 'Zaznaczono: skopiuj',
+    qr: 'Kod QR',
+    tipNote:
+      'Dowolna kwota, jednorazowo. Płacisz na ich stronie albo we własnym portfelu czy aplikacji bankowej &mdash; nie na tej stronie.',
     back: 'Powrót do książek',
   },
 
@@ -344,7 +489,23 @@ export const CONTENT = {
       'Puedes dejar aquí una propina voluntaria. Cubre solo costos de alojamiento,\n  dominio y traducción &mdash; no se vende nada, y no es necesaria para usar\n  ninguno de los libros.',
     kofi: 'Apóyame en Ko-fi',
     bmc: 'Invítame a un café',
-    tipNote: 'Cualquier cantidad, una sola vez. Se abre en su sitio, no en el mío.',
+    lnSub: 'Da las gracias &mdash; una pequeña propina',
+    payid: 'PayID (Australia)',
+    payidSub: 'Las pequeñas propinas son bienvenidas, amigo',
+    lnCardSub: 'Cualquier cantidad, desde cualquier billetera Lightning.',
+    lnOpen: 'Abrir en la billetera',
+    lnCopy: 'Copiar dirección',
+    lnHelp: 'Escanea el código con la app de tu billetera, o copia la dirección en ella.',
+    payidCardSub: 'Para cuentas bancarias australianas.',
+    payidCopy: 'Copiar PayID',
+    payidHelp:
+      'En la app de tu banco, elige pagar a un PayID, pega esta dirección e introduce cualquier cantidad. Tu banco muestra el nombre de la cuenta antes de que confirmes.',
+    close: 'Cerrar',
+    copied: 'Copiado',
+    selected: 'Seleccionado: cópialo',
+    qr: 'Código QR',
+    tipNote:
+      'Cualquier cantidad, una sola vez. Pagas en su sitio, o en tu propia billetera o app del banco &mdash; no en esta página.',
     back: 'Volver a los libros',
   },
 
@@ -381,7 +542,23 @@ export const CONTENT = {
       'আপনি এখানে স্বেচ্ছায় টিপস দিতে পারেন। এটি\n  কেবল হোস্টিং, ডোমেইন এবং অনুবাদ খরচ সমর্থন করে &mdash; কিছুই বিক্রি করা হয়\n  না, এবং বইগুলোর কোনোটি ব্যবহার করতে এটি আবশ্যক নয়।',
     kofi: 'Ko-fi-তে আমাকে সমর্থন করুন',
     bmc: 'আমাকে একটি কফি কিনে দিন',
-    tipNote: 'যেকোনো পরিমাণ, এককালীন। এটি তাদের সাইটে খোলে, আমার সাইটে নয়।',
+    lnSub: 'ধন্যবাদ জানান &mdash; ছোট্ট টিপস',
+    payid: 'PayID (অস্ট্রেলিয়া)',
+    payidSub: 'ছোট টিপসকে স্বাগত জানাই, বন্ধু',
+    lnCardSub: 'যেকোনো পরিমাণ, যেকোনো Lightning ওয়ালেট থেকে।',
+    lnOpen: 'ওয়ালেটে খুলুন',
+    lnCopy: 'ঠিকানা কপি করুন',
+    lnHelp: 'আপনার ওয়ালেট অ্যাপ দিয়ে কোডটি স্ক্যান করুন, অথবা ঠিকানাটি কপি করে সেখানে দিন।',
+    payidCardSub: 'অস্ট্রেলীয় ব্যাংক অ্যাকাউন্টের জন্য।',
+    payidCopy: 'PayID কপি করুন',
+    payidHelp:
+      'আপনার ব্যাংক অ্যাপে PayID-তে পেমেন্ট বেছে নিন, এই ঠিকানাটি পেস্ট করুন, এবং যেকোনো পরিমাণ লিখুন। নিশ্চিত করার আগে আপনার ব্যাংক অ্যাকাউন্টের নামটি দেখায়।',
+    close: 'বন্ধ করুন',
+    copied: 'কপি হয়েছে',
+    selected: 'নির্বাচিত: এটি কপি করুন',
+    qr: 'QR কোড',
+    tipNote:
+      'যেকোনো পরিমাণ, এককালীন। আপনি তাদের সাইটে, অথবা আপনার নিজের ওয়ালেট বা ব্যাংক অ্যাপে পেমেন্ট করেন &mdash; এই পৃষ্ঠায় নয়।',
     back: 'বইয়ের পাতায় ফিরে যান',
   },
 
@@ -421,7 +598,23 @@ export const CONTENT = {
       'آپ یہاں ایک رضاکارانہ ٹپ دے سکتے ہیں۔ یہ\n  صرف ہوسٹنگ، ڈومین اور ترجمے کے اخراجات میں مدد دیتی ہے &mdash; کچھ بھی فروخت\n  نہیں کیا جاتا، اور کسی بھی کتاب کے استعمال کے لیے یہ ضروری نہیں ہے۔',
     kofi: 'Ko-fi پر میری حمایت کریں',
     bmc: 'مجھے ایک کافی پلائیں',
-    tipNote: 'کوئی بھی رقم، ایک بار۔ یہ ان کی سائٹ پر کھلتا ہے، میری سائٹ پر نہیں۔',
+    lnSub: 'شکریہ کہیں &mdash; ایک چھوٹی سی ٹپ',
+    payid: 'PayID (آسٹریلیا)',
+    payidSub: 'چھوٹی ٹپس کا خیرمقدم ہے، دوست',
+    lnCardSub: 'کوئی بھی رقم، کسی بھی Lightning والیٹ سے۔',
+    lnOpen: 'والیٹ میں کھولیں',
+    lnCopy: 'پتہ کاپی کریں',
+    lnHelp: 'اپنی والیٹ ایپ سے کوڈ اسکین کریں، یا پتہ کاپی کر کے اس میں ڈالیں۔',
+    payidCardSub: 'آسٹریلوی بینک اکاؤنٹس کے لیے۔',
+    payidCopy: 'PayID کاپی کریں',
+    payidHelp:
+      'اپنی بینک ایپ میں PayID پر ادائیگی منتخب کریں، یہ پتہ پیسٹ کریں، اور کوئی بھی رقم درج کریں۔ تصدیق سے پہلے آپ کا بینک اکاؤنٹ کا نام دکھاتا ہے۔',
+    close: 'بند کریں',
+    copied: 'کاپی ہو گیا',
+    selected: 'منتخب ہو گیا: اسے کاپی کریں',
+    qr: 'QR کوڈ',
+    tipNote:
+      'کوئی بھی رقم، ایک بار۔ آپ ادائیگی ان کی سائٹ پر، یا اپنے والیٹ یا بینک ایپ میں کرتے ہیں &mdash; اس صفحے پر نہیں۔',
     back: 'کتابوں کی طرف واپس جائیں',
   },
 };
