@@ -1,5 +1,5 @@
 /**
- * Build the story page in six languages.
+ * Build the story page in eleven languages.
  *
  *   node build.mjs
  *
@@ -7,15 +7,15 @@
  *
  *   free-english-books/index.html          canonical English
  *   free-english-books/en/index.html       English at the /en postfix
- *   free-english-books/{hi,vi,pt-br,zh,ar}/index.html
+ *   free-english-books/{hi,vi,pt-br,zh,ar,zh-hant,pl,es,bn,ur}/index.html
  *
  * No dependencies and no install step: GitHub Pages serves whatever is
  * committed here, so the generated HTML is committed alongside this script.
  * Run it and commit the diff whenever content.mjs changes.
  *
  * Why generate at all, when the repo has three static files and no toolchain:
- * the six pages differ only in their text. Hand-maintaining six copies of the
- * stylesheet, the hreflang block and the two payment buttons is how the
+ * the eleven pages differ only in their text. Hand-maintaining eleven copies
+ * of the stylesheet, the hreflang block and the two payment buttons is how the
  * Arabic page ends up a version behind the English one, in a way nobody who
  * doesn't read Arabic would notice.
  */
@@ -49,7 +49,7 @@ function alternates(locale) {
 }
 
 /*
-  The "English" button, on the five translated pages only.
+  The "English" button, on the ten translated pages only.
 
   It is deliberately not styled like the two payment buttons: those are the
   providers' own colours and they are the only things on the page anyone is
@@ -57,7 +57,7 @@ function alternates(locale) {
   read as a third offer. This one is an outlined pill, quiet, above the
   heading, where a reader who cannot read the page will look first.
 
-  The label stays the English word "English" in all five. Localising it to
+  The label stays the English word "English" in all ten. Localising it to
   "अंग्रेज़ी" would be correct and useless: the person who needs this button is
   the person who cannot read the page it sits on.
 */
@@ -75,7 +75,7 @@ function englishButton(c) {
 `;
 }
 
-// On the two English pages, the same slot carries the other five languages, so
+// On the two English pages, the same slot carries the other ten languages, so
 // the switch works in both directions rather than only inwards.
 function languageRow(current) {
   const links = LOCALES.filter((l) => l !== 'en' && l !== current)

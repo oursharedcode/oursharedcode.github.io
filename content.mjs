@@ -1,8 +1,8 @@
 /**
- * The page, in six languages. One record per locale; build.mjs turns each into
- * a standalone HTML file.
+ * The page, in eleven languages. One record per locale; build.mjs turns each
+ * into a standalone HTML file.
  *
- * The English record is the original. It is the source the other five were
+ * The English record is the original. It is the source the other ten were
  * translated from, and it is the only one the owner wrote himself, so it is
  * the one that moves first when anything changes.
  *
@@ -33,11 +33,11 @@ export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es', 'bn', 'ur'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
-// six audiences and should describe them identically to a crawler.
+// eleven audiences and should describe them identically to a crawler.
 export const BCP47 = {
   en: 'en',
   hi: 'hi',
@@ -48,9 +48,11 @@ export const BCP47 = {
   'zh-hant': 'zh-Hant',
   pl: 'pl',
   es: 'es',
+  bn: 'bn',
+  ur: 'ur',
 };
 
-export const RTL = ['ar'];
+export const RTL = ['ar', 'ur'];
 
 export const CONTENT = {
   // -------------------------------------------------------------- English --
@@ -58,7 +60,7 @@ export const CONTENT = {
     title: 'From Band 5.5 to Band 8 — A True Story',
     description:
       'How I went from band 5.5 to band 8 in nineteen months, and why I wrote free English exam preparation books.',
-    // The label the "English" button carries on the other five pages. It is
+    // The label the "English" button carries on the other ten pages. It is
     // written in English on purpose: a reader who cannot read the page they
     // landed on has to recognise this word without reading the page.
     englishLabel: 'English',
@@ -172,7 +174,7 @@ export const CONTENT = {
   // -------------------------------------------------- Chinese (Simplified) --
   // -------------------------------------------------- Chinese (Simplified) --
   //
-  // Two typographic rules this block follows and the other five do not.
+  // Two typographic rules this block follows and the non-Chinese ones do not.
   //
   // No source line wrapping. A newline in HTML markup renders as a space, and
   // Chinese has no spaces between words, so a wrapped source line put a
@@ -279,7 +281,7 @@ export const CONTENT = {
   // steering/adding-a-locale.md). title <- supportTitle, back <- backHome, and
   // the tip's noun list <- the cost clause inside disclaimerP5, all copied
   // verbatim from site/src/i18n/pl.json rather than translated fresh here, for
-  // the same reason the other five are: this page is linked by its title, and
+  // the same reason the others are: this page is linked by its title, and
   // a reader comparing this page against a downloaded book's imprint must find
   // the same claim worded the same way in their own language.
   pl: {
@@ -344,5 +346,82 @@ export const CONTENT = {
     bmc: 'Invítame a un café',
     tipNote: 'Cualquier cantidad, una sola vez. Se abre en su sitio, no en el mío.',
     back: 'Volver a los libros',
+  },
+
+  // -------------------------------------------------------------- Bengali --
+  //
+  // Added 2026-09-30, a week after the site's own bn promotion (ielts_books
+  // repo, 2026-09-23 — see steering/adding-a-locale.md and
+  // changelog-archive.md). title <- supportTitle, back <- backHome, and the
+  // tip's noun list <- the cost clause inside disclaimerP5, all copied
+  // verbatim from site/src/i18n/bn.json rather than translated fresh here, for
+  // the same reason the other locales are: this page is linked by its title,
+  // and a reader comparing this page against a downloaded book's imprint must
+  // find the same claim worded the same way in their own language.
+  bn: {
+    title: 'Band 5.5 থেকে Band 8 — একটি সত্য গল্প',
+    description:
+      'কীভাবে আমি উনিশ মাসে ব্যান্ড 5.5 থেকে ব্যান্ড 8-এ পৌঁছেছিলাম, এবং কেন আমি ইংরেজি পরীক্ষার প্রস্তুতির জন্য বিনামূল্যে বই লিখেছি।',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'বাংলা',
+    lede:
+      'হ্যালো বন্ধুরা,<br>\n  আমি <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a> তৈরি করেছি।',
+    affiliation:
+      'এই পৃষ্ঠাটি ব্যক্তিগতভাবে আমার &mdash; এটি ওই সাইটের অংশ নয়, এবং এটি IELTS,\n  British Council, IDP বা Cambridge Assessment English-এর সাথে সংযুক্ত, তাদের\n  দ্বারা স্বীকৃত বা তাদের সাথে সম্পর্কিত নয়।',
+    story: [
+      'আমি ব্যান্ড 5.5 থেকে শুরু করেছিলাম।',
+      'প্রথম যে জিনিসটি বদলেছিল, সেটি আমার ইংরেজি ছিল না। আমি নিজেকে বলতাম <em>তুমি\n  পারবে</em> &mdash; আর যেদিন তা সত্যি মনে হতো না, সেদিন নিজেকে আবার বলতাম। এই\n  তালিকায় প্রেরণাকে সবচেয়ে কম ব্যবহারিক জিনিস বলে মনে হয়। এটিই সেই কারণ, যার\n  জন্য বাকি সবকিছু দুই সপ্তাহের বদলে উনিশ মাস টিকেছিল।',
+      'তারপর আমি সাধারণ শব্দে লেখা বন্ধ করলাম। আমি <em>একটি খারাপ জিনিস</em> লিখতাম,\n  যেখানে আমি <em>একটি অর্থনৈতিক বিপর্যয়</em> বোঝাতে চাইতাম। যা আমার স্কোরকে\n  আটকে রাখছিল, তার বেশিরভাগটা ছিল ওই অস্পষ্টতা &mdash; ভাবনাগুলো ছিল, আর ভাষা\n  সেগুলোকে চ্যাপ্টা করে দিত। আমি কলোকেশনের একটি খাতা শুরু করলাম, অর্থাৎ সেইসব\n  শব্দের, যেগুলো একে অপরের পাশে থাকে, আর তাতে যোগ করে গেলাম, যতক্ষণ না\n  শব্দবন্ধগুলো খুঁজে আনা ছাড়াই বেরিয়ে আসতে লাগল।',
+      'স্পিকিংয়ের জন্য, আমি নিজের কণ্ঠস্বর রেকর্ড করে আবার শুনলাম। এটি অস্বস্তিকর,\n  এবং একজন পরীক্ষক যা শোনেন তা শোনার সবচেয়ে দ্রুত উপায়। তারপর আমি খবর আর\n  পডকাস্ট শুনলাম ছন্দের জন্য, শব্দভান্ডারের জন্য নয় &mdash; একজন সাবলীল বক্তা\n  কোথায় ধীর হয়ে যান, শব্দগুলো একসাথে জুড়ে দেন, থেমে যান &mdash; এবং তা অনুকরণ\n  করলাম।',
+      'উনিশ মাসের প্রতিদিনের অনুশীলন আমাকে 5.5 থেকে 8-এ নিয়ে গেল।',
+      'এরপর আমি ঠিক করলাম, যা বের করেছিলাম তা ইংরেজি পরীক্ষার প্রস্তুতির জন্য\n  বিনামূল্যে বই হিসেবে শেয়ার করব। সেগুলো বিনামূল্যে ডাউনলোড করা যায়, কোনো\n  সাইন-আপ বা অ্যাকাউন্ট ছাড়াই,\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>-এ।',
+    ],
+    tip:
+      'আপনি এখানে স্বেচ্ছায় টিপস দিতে পারেন। এটি\n  কেবল হোস্টিং, ডোমেইন এবং অনুবাদ খরচ সমর্থন করে &mdash; কিছুই বিক্রি করা হয়\n  না, এবং বইগুলোর কোনোটি ব্যবহার করতে এটি আবশ্যক নয়।',
+    kofi: 'Ko-fi-তে আমাকে সমর্থন করুন',
+    bmc: 'আমাকে একটি কফি কিনে দিন',
+    tipNote: 'যেকোনো পরিমাণ, এককালীন। এটি তাদের সাইটে খোলে, আমার সাইটে নয়।',
+    back: 'বইয়ের পাতায় ফিরে যান',
+  },
+
+  // ----------------------------------------------------------------- Urdu --
+  //
+  // Added 2026-09-30, a week after the site's own ur promotion (ielts_books
+  // repo, 2026-09-23 — see steering/adding-a-locale.md and
+  // changelog-archive.md). title <- supportTitle, back <- backHome, and the
+  // tip's noun list <- the cost clause inside disclaimerP5, all copied
+  // verbatim from site/src/i18n/ur.json rather than translated fresh here, for
+  // the same reason the other locales are: this page is linked by its title,
+  // and a reader comparing this page against a downloaded book's imprint must
+  // find the same claim worded the same way in their own language. The
+  // clause's verb is inflected for its subject here — the tip (feminine
+  // singular) rather than disclaimerP5's plural donations — as hi does; the
+  // noun list itself is untouched.
+  ur: {
+    title: 'بینڈ 5.5 سے بینڈ 8 تک — ایک سچی کہانی',
+    description:
+      'میں انیس مہینوں میں بینڈ 5.5 سے بینڈ 8 تک کیسے پہنچا، اور میں نے انگریزی امتحان کی تیاری کے لیے مفت کتابیں کیوں لکھیں۔',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'اردو',
+    lede:
+      'ہیلو دوستو،<br>\n  میں نے <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a> بنائی ہے۔',
+    affiliation:
+      'یہ صفحہ ذاتی طور پر میرا ہے &mdash; یہ اُس سائٹ کا حصہ نہیں ہے، اور یہ IELTS،\n  British Council، IDP یا Cambridge Assessment English سے وابستہ، ان کی جانب سے\n  توثیق شدہ یا ان سے منسلک نہیں ہے۔',
+    story: [
+      'میں نے بینڈ 5.5 سے آغاز کیا تھا۔',
+      'سب سے پہلے جو چیز بدلی، وہ میری انگریزی نہیں تھی۔ میں خود سے کہتا تھا <em>تم\n  کر سکتے ہو</em> &mdash; اور جن دنوں یہ سچ نہیں لگتا تھا، میں خود سے پھر کہتا\n  تھا۔ اس فہرست میں تحریک سب سے کم عملی چیز لگتی ہے۔ یہی وجہ ہے کہ باقی سب کچھ\n  دو ہفتوں کے بجائے انیس مہینے چلا۔',
+      'پھر میں نے عمومی الفاظ میں لکھنا چھوڑ دیا۔ میں <em>ایک بری بات</em> لکھتا تھا،\n  جبکہ میرا مطلب <em>ایک معاشی تباہی</em> ہوتا تھا۔ میرا اسکور زیادہ تر اسی\n  ابہام نے روک رکھا تھا &mdash; خیالات موجود تھے، اور زبان انہیں سپاٹ کر دیتی\n  تھی۔ میں نے کولوکیشنز کی ایک نوٹ بک شروع کی، یعنی ان الفاظ کی جو ایک دوسرے کے\n  ساتھ رہتے ہیں، اور اس میں اضافہ کرتا رہا یہاں تک کہ فقرے ڈھونڈے بغیر نکلنے\n  لگے۔',
+      'اسپیکنگ کے لیے، میں نے اپنی آواز ریکارڈ کی اور اسے سنا۔ یہ غیر آرام دہ ہے، اور\n  ممتحن جو کچھ سنتا ہے اسے سننے کا یہ سب سے تیز طریقہ ہے۔ پھر میں نے خبریں اور\n  پوڈکاسٹ ردھم کے لیے سنے نہ کہ ذخیرۂ الفاظ کے لیے &mdash; کہاں ایک روانی سے\n  بولنے والا آہستہ ہو جاتا ہے، الفاظ کو آپس میں ملا دیتا ہے، رک جاتا ہے &mdash;\n  اور اس کی نقل کی۔',
+      'انیس مہینوں کی روزانہ مشق مجھے 5.5 سے 8 تک لے گئی۔',
+      'اس کے بعد میں نے فیصلہ کیا کہ جو کچھ میں نے سمجھا تھا، اسے انگریزی امتحان کی\n  تیاری کے لیے مفت کتابوں کی صورت میں شیئر کروں۔ انہیں مفت ڈاؤن لوڈ کیا جا سکتا\n  ہے، نہ سائن اپ، نہ اکاؤنٹ،\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a> پر۔',
+    ],
+    tip:
+      'آپ یہاں ایک رضاکارانہ ٹپ دے سکتے ہیں۔ یہ\n  صرف ہوسٹنگ، ڈومین اور ترجمے کے اخراجات میں مدد دیتی ہے &mdash; کچھ بھی فروخت\n  نہیں کیا جاتا، اور کسی بھی کتاب کے استعمال کے لیے یہ ضروری نہیں ہے۔',
+    kofi: 'Ko-fi پر میری حمایت کریں',
+    bmc: 'مجھے ایک کافی پلائیں',
+    tipNote: 'کوئی بھی رقم، ایک بار۔ یہ ان کی سائٹ پر کھلتا ہے، میری سائٹ پر نہیں۔',
+    back: 'کتابوں کی طرف واپس جائیں',
   },
 };
