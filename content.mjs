@@ -50,6 +50,15 @@ export const PAYID = 'markwebtools@oursharedcode.com';
 // per locale: the scheme name stays, the country is translated.
 export const LIGHTNING_LABEL = 'Bitcoin Lightning';
 
+// Where the page reports what is pressed on it (ielts_books steering, FR-17e,
+// 2026-10-04): a small counter on this site's own domain, described on
+// /privacy/#tip-counter. It is sent which of the four buttons was pressed, whether a
+// copy button was, and for how long a card stayed open — never an address, an
+// amount, or anything typed. The environment variable is for a local check
+// against a collector on this machine; a build that will be committed is run
+// without it.
+export const COLLECTOR_URL = process.env.COLLECTOR_URL || 'https://stats.oursharedcode.com/e';
+
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.

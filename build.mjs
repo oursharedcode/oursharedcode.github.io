@@ -23,16 +23,19 @@
  */
 
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
-  BASE_URL, BCP47, BMC_URL, BOOKS_URL, CONTENT, KOFI_URL, LIGHTNING_ADDRESS, LIGHTNING_LABEL, LOCALES, PAYID, RTL,
+  BASE_URL, BCP47, BMC_URL, BOOKS_URL, COLLECTOR_URL, CONTENT, KOFI_URL, LIGHTNING_ADDRESS, LIGHTNING_LABEL, LOCALES,
+  PAYID, RTL,
 } from './content.mjs';
 import { LIGHTNING_URI, qrSvg } from './lightning.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(here, 'free-english-books');
+// OUT_DIR builds a scratch copy somewhere else, for a local check that must
+// not touch the committed pages (it goes with COLLECTOR_URL in content.mjs).
+const ROOT = process.env.OUT_DIR ? resolve(process.env.OUT_DIR) : join(here, 'free-english-books');
 
 // The canonical English URL is the bare directory, not /en. It is the URL that
 // has been published and linked since 2026-08-13, it is the one the UDRP
@@ -411,11 +414,11 @@ function supportBlock(c, { topCopy = false } = {}) {
     ${BANK_SVG}
     <span class="btn-two"><span>${c.payid}</span><small>${c.payidSub}</small></span>
   </a>
-  <a class="btn btn-kofi" href="${KOFI_URL}" rel="noopener">
+  <a class="btn btn-kofi" href="${KOFI_URL}" rel="noopener" data-out="kofi">
     ${KOFI_SVG}
     ${c.kofi}
   </a>
-  <a class="btn btn-bmc" href="${BMC_URL}" rel="noopener">
+  <a class="btn btn-bmc" href="${BMC_URL}" rel="noopener" data-out="bmc">
     ${BMC_SVG}
     ${c.bmc}
   </a>
@@ -430,8 +433,9 @@ function supportBlock(c, { topCopy = false } = {}) {
   The Lightning and PayID cards: one of each per page, after the lower
   buttons, and the top and bottom buttons open the same one. Everything on
   them is drawn here and nothing is fetched: the QR code is an inline SVG made
-  when this script runs (lightning.mjs), and the script at the foot of the
-  page only opens the cards and copies.
+  when this script runs (lightning.mjs). The script at the foot of the page
+  opens the cards, copies, and since 2026-10-04 reports which button was
+  pressed to this site's own counter (see script() below).
 
   The Lightning address shows as text under the code, because a reader on a
   phone cannot scan their own screen: "Open in wallet" hands the LNURL to the
@@ -451,7 +455,7 @@ function giftCards(c) {
   <div class="gc-qr">${qrSvg(c.qr)}</div>
   <p class="gc-addr"><code dir="ltr">${LIGHTNING_ADDRESS.replace('@', '@<wbr>')}</code></p>
   <div class="gc-actions">
-    <a class="gc-btn gc-primary" href="${LIGHTNING_URI}">${WALLET_SVG}${c.lnOpen}</a>
+    <a class="gc-btn gc-primary" href="${LIGHTNING_URI}" data-wallet>${WALLET_SVG}${c.lnOpen}</a>
     <button type="button" class="gc-btn" data-copy="${LIGHTNING_ADDRESS}" data-done="${c.copied}" data-selected="${c.selected}">${COPY_SVG}<span class="lbl" aria-live="polite">${c.lnCopy}</span></button>
   </div>
   <p class="gc-help">${c.lnHelp}</p>
@@ -481,12 +485,89 @@ function giftCards(c) {
   as the plain links to the cards that they are in the markup.
   A copy that the browser refuses (no clipboard access) selects the address
   instead, and the button says so.
+
+  Since 2026-10-04 it also reports what is pressed (ielts_books steering,
+  FR-17e): that the page was opened, which of the four buttons was pressed,
+  whether a copy button or "Open in wallet" was, and how long a card and the
+  page stayed in view. Each report is one small POST to this site's own
+  counter (COLLECTOR_URL) and carries only those facts, the page's language,
+  the hour offset of the reader's clock, and pv, a random label made here on
+  every page load and never stored on the reader's device. It never
+  carries an address, an amount, the referring URL or anything typed, and it
+  sets no cookie. /privacy/#tip-counter says the same to the reader; keep the
+  two in step. A report that fails, or a browser without sendBeacon, changes nothing
+  the reader can see.
 */
-const SCRIPT = `<script>
+const script = (locale) => `<script>
 (() => {
   const root = document.documentElement;
   const canPop = typeof root.showPopover === 'function';
   let opener = null;
+
+  const pv = Array.from(crypto.getRandomValues(new Uint8Array(6)), (b) => b.toString(16).padStart(2, '0')).join('');
+  let budget = 60;
+  function send(t, extra) {
+    if (budget <= 0 || !navigator.sendBeacon) return;
+    budget -= 1;
+    try {
+      navigator.sendBeacon('${COLLECTOR_URL}', JSON.stringify(Object.assign({ t, pv, l: '${locale}' }, extra)));
+    } catch (err) {}
+  }
+
+  // Time counts only while the page is the tab in view. \`cards\` holds, per
+  // gift, how long its card has been open and how many times it was pressed.
+  let since = document.visibilityState === 'visible' ? performance.now() : null;
+  let onPage = 0;
+  let presses = 0;
+  const cards = {};
+  const state = (rail) => cards[rail] || (cards[rail] = { ms: 0, open: false, n: 0 });
+  function tick() {
+    if (since === null) return;
+    const now = performance.now();
+    onPage += now - since;
+    for (const rail in cards) if (cards[rail].open) cards[rail].ms += now - since;
+    since = now;
+  }
+  function press(t, rail) {
+    const s = state(rail);
+    s.n += 1;
+    presses += 1;
+    send(t, { r: rail, rn: s.n, pn: presses });
+    return s;
+  }
+  // The page went out of view: another tab, another app, or gone. Reported
+  // every time, with the running totals, because the last time looks like
+  // any other. Once per time, though: leaving for another page fires both
+  // pagehide and visibilitychange.
+  function away() {
+    if (since === null) return;
+    tick();
+    since = null;
+    for (const rail in cards) if (cards[rail].open) send('away', { r: rail, ms: Math.round(cards[rail].ms) });
+    send('leave', { ms: Math.round(onPage) });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') away();
+    else if (since === null) since = performance.now();
+  });
+  addEventListener('pagehide', () => {
+    if (since !== null) away();
+  });
+  addEventListener('pageshow', (e) => {
+    if (e.persisted && since === null && document.visibilityState === 'visible') since = performance.now();
+  });
+
+  // Where the reader came from, as one of four words. The address they came
+  // from stays in this function.
+  let ref = 'none';
+  try {
+    const host = document.referrer ? new URL(document.referrer).hostname : '';
+    if (host) {
+      ref = host === 'freeieltsbooks.net' || host.endsWith('.freeieltsbooks.net') ? 'books'
+        : host === location.hostname ? 'self' : 'other';
+    }
+  } catch (err) {}
+  send('view', { tz: -new Date().getTimezoneOffset(), ref });
 
   function open(card, from) {
     opener = from;
@@ -499,9 +580,17 @@ const SCRIPT = `<script>
     for (const a of document.querySelectorAll('a[data-gift]')) a.setAttribute('aria-haspopup', 'dialog');
     for (const card of document.querySelectorAll('.gift-pop')) {
       card.setAttribute('role', 'dialog');
-      // Back to the button that opened it, so a keyboard reader carries on
-      // from where they were.
       card.addEventListener('toggle', (e) => {
+        tick();
+        if (e.newState === 'open') {
+          press('open', card.id).open = true;
+        } else {
+          const s = state(card.id);
+          s.open = false;
+          send('close', { r: card.id, ms: Math.round(s.ms) });
+        }
+        // Back to the button that opened it, so a keyboard reader carries on
+        // from where they were.
         if (e.newState === 'closed' && opener && !document.querySelector('.gift-pop:popover-open')) {
           opener.focus({ preventScroll: true });
           opener = null;
@@ -540,8 +629,24 @@ const SCRIPT = `<script>
       open(document.getElementById(gift.hash.slice(1)), gift);
       return;
     }
+    // Without popovers the link just scrolls to its card, so the press is
+    // reported here; with them, the card's toggle reports it.
+    if (gift) {
+      press('open', gift.hash.slice(1));
+      return;
+    }
+    const out = e.target.closest('a[data-out]');
+    if (out) {
+      press('out', out.dataset.out);
+      return;
+    }
+    if (e.target.closest('a[data-wallet]')) {
+      send('wallet', { r: 'lightning' });
+      return;
+    }
     const btn = e.target.closest('[data-copy]');
     if (btn) {
+      send('copy', { r: btn.closest('.gift-pop').id });
       copy(btn);
       return;
     }
@@ -678,7 +783,7 @@ ${c.story.map((p) => `<p>\n  ${p}\n</p>`).join('\n\n')}
 ${supportBlock(c)}${giftCards(c)}<p class="note">
   ${backArrow} <a href="${BOOKS_URL}">${c.back}</a>
 </p>
-${SCRIPT}
+${script(locale)}
 </body>
 </html>
 `;
