@@ -68,9 +68,169 @@ a { color: var(--link); }
 hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 2rem; }
 footer { color: var(--muted); font-size: .9rem; }
 footer a { color: var(--muted); }
+
+/* ---- Support Author --------------------------------------------------------
+   Added 19 October 2026 (funnyone Step 84, task B-22; asked for on 17 October,
+   with a sheet of this site's own). A heart that beats, and a label that hops
+   after it, at the top right; it opens a sheet with the five ways to leave a
+   gift: PayID, GitHub Sponsors, Bitcoin Lightning, Ko-fi, Buy Me a Coffee. The
+   page is as it was but for the button in front of the heading and the line
+   about languages.
+   The sheet is the books page's pop-up (/free-english-books/, built by
+   build.mjs) made once, for five rails: the browser's own popover, so Esc, the
+   close button and a tap outside all close it; a sheet rising from the bottom
+   on a phone, a card in the middle on a computer. The script at the foot adds
+   .pop to <html> once it knows the browser has popovers, and every pop-up rule
+   hangs off it, so nothing floats unless it can also be closed. Without it the
+   sheet is plain content after the Games card and the button is a link that
+   jumps to it. */
+:root {
+  --heart: #d6336c;
+  --kofi: #d93a37;
+  --bmc: #ffdd00;
+  --ln-a: #ffc663; --ln-b: #f7931a; --ln-c: #e0700b; --ln-ink: #1b1204;
+  --payid: #1f3a5f;
+  --ok: #1d7a46;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --heart: #ff7aa2; --payid: #2d5a8c; --ok: #6fd39a; }
+}
+
+.topbar { display: flex; justify-content: flex-end; margin: -1.5rem 0 .75rem; }
+.support-open {
+  display: inline-flex; align-items: center; gap: .4rem;
+  min-height: 2.75rem; padding: 0 .25rem;
+  color: var(--ink); text-decoration: none;
+}
+.support-open:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; border-radius: 999px; }
+.support-heart {
+  display: inline-block; color: var(--heart); font-size: 1.6rem; line-height: 1;
+  animation: support-beat 3s ease-in-out infinite;
+}
+.support-words {
+  padding: .3rem .9rem; border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--card); font-size: .95rem; font-weight: 600; line-height: 1.25; white-space: nowrap;
+  transition: border-color .16s ease, color .16s ease;
+}
+.support-open:hover .support-words, .support-open:focus-visible .support-words { border-color: var(--link); color: var(--link); }
+.hop { display: inline-block; animation: support-hop 3s ease-in-out infinite; }
+@keyframes support-beat {
+  0%, 28%, 100% { transform: scale(1); }
+  7% { transform: scale(1.22); }
+  14% { transform: scale(1); }
+  21% { transform: scale(1.12); }
+}
+@keyframes support-hop {
+  0%, 30%, 100% { transform: translateY(0); }
+  10% { transform: translateY(-6px); }
+  19% { transform: translateY(0); }
+  24% { transform: translateY(-2px); }
+}
+
+.gift-pop {
+  position: static; width: auto; height: auto; overflow: visible;
+  margin: 0 0 1.25rem; padding: 1.1rem 1.25rem 1.25rem;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 20px;
+  box-shadow: 0 10px 22px -14px rgba(0,0,0,.35);
+}
+html:not(.pop) .gift-pop:target { display: block; }
+.pop .gift-pop {
+  position: fixed; inset: 0; margin: auto;
+  width: min(26rem, calc(100vw - 2rem)); height: fit-content; max-height: calc(100dvh - 2rem);
+  overflow: auto; overscroll-behavior: contain; border: 0;
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,.55), 0 0 0 1px var(--rule);
+  opacity: 0; transform: translateY(10px) scale(.98);
+  transition: opacity .2s ease, transform .2s ease, overlay .2s allow-discrete, display .2s allow-discrete;
+}
+.pop .gift-pop:popover-open { opacity: 1; transform: none; }
+@starting-style { .pop .gift-pop:popover-open { opacity: 0; transform: translateY(10px) scale(.98); } }
+.gift-pop::backdrop { background: rgba(10,12,18,.5); }
+.gift-pop:focus { outline: none; }
+@media (max-width: 34rem) {
+  .pop .gift-pop {
+    inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; max-height: 94dvh;
+    border-radius: 22px 22px 0 0;
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    transform: translateY(100%);
+  }
+  .pop .gift-pop::before {
+    content: ""; display: block; width: 2.5rem; height: 4px; border-radius: 4px;
+    background: var(--rule); margin: -.35rem auto .75rem;
+  }
+  @starting-style { .pop .gift-pop:popover-open { transform: translateY(100%); } }
+}
+
+.gc-head { display: flex; align-items: center; gap: .65rem; margin: 0 0 .35rem; }
+.gc-icon {
+  flex: none; width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center;
+  background: #d6336c; color: #fff; font-size: 1.1rem; line-height: 1;
+}
+.gc-title { flex: 1; font-size: 1.15rem; line-height: 1.25; margin: 0; }
+.gc-close {
+  flex: none; width: 2.4rem; height: 2.4rem; border-radius: 50%; display: none; place-items: center;
+  border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; padding: 0; font: inherit;
+}
+.pop .gc-close { display: grid; }
+.gc-close:hover { color: var(--ink); border-color: var(--muted); }
+.gc-close:focus-visible, .gc-btn:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+.gc-sub { margin: 0 0 .75rem; color: var(--muted); font-size: .95rem; }
+
+.rail { padding: .9rem 0; border-top: 1px solid var(--rule); }
+.rail-title { margin: 0 0 .55rem; font-weight: 600; }
+.rail-note { margin-inline-start: .35rem; font-weight: 400; font-size: .9rem; color: var(--muted); }
+.rail-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.rail code {
+  display: inline-block; max-width: 100%; padding: .45rem .75rem; border-radius: 10px;
+  font: 500 .95rem/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; overflow-wrap: anywhere;
+  background: var(--bg); border: 1px solid var(--rule); -webkit-user-select: all; user-select: all;
+}
+.rail-hint { margin: .65rem 0 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
+/* The code keeps its own white ground in dark mode: scanners want dark on
+   light, with a quiet margin, which the SVG draws in. */
+.gc-qr {
+  width: min(11.5rem, 100%); margin: 0 auto .8rem; border-radius: 14px; overflow: hidden; background: #fff;
+  box-shadow: 0 0 0 1px var(--rule), 0 10px 26px -14px rgba(0,0,0,.35);
+}
+.qr { display: block; width: 100%; height: auto; }
+.gc-addr { margin: 0 0 .8rem; text-align: center; }
+.gc-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .6rem; }
+.pop .gc-actions { grid-template-columns: minmax(0, 1fr); }
+.gc-btn {
+  font: inherit; font-size: .98rem; font-weight: 600; line-height: 1.2;
+  min-height: 3rem; padding: .7rem 1rem; border-radius: 999px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem; text-align: center;
+  border: 1px solid var(--rule); background: transparent; color: var(--ink); text-decoration: none;
+  transition: filter .16s ease, transform .16s ease;
+}
+.gc-btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.gc-btn svg { flex: none; }
+.gc-link { width: 100%; }
+.rail-ln .gc-primary {
+  border: 0; color: var(--ln-ink);
+  background: linear-gradient(135deg, var(--ln-a), var(--ln-b) 55%, var(--ln-c));
+  box-shadow: 0 6px 18px -8px rgba(247,147,26,.9);
+}
+.rail-payid .gc-primary { border: 0; color: #fff; background: var(--payid); }
+.gc-btn.is-done { border-color: var(--ok); color: var(--ok); }
+.gc-primary.is-done { color: #fff; background: #1d7a46; }
+.gifts { display: grid; gap: .6rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+.gifts .gc-btn { width: 100%; }
+.btn-kofi { border: 0; background: var(--kofi); color: #fff; }
+.btn-bmc { border: 0; background: var(--bmc); color: #10121a; }
+
+@media (prefers-reduced-motion: reduce) {
+  .support-heart, .hop, .support-words, .gc-btn, .pop .gift-pop { animation: none; transition: none; }
+}
 </style>
 </head>
 <body>
+
+<!-- Added 19 October 2026 (funnyone Step 84, task B-22): the one thing in front
+     of the heading. It opens the sheet below the Games card. -->
+<div class="topbar">
+  <a class="support-open" href="#support" data-gift><span class="support-heart" aria-hidden="true">&#9829;</span><span class="support-words"><span class="hop" style="animation-delay:200ms">Support</span> <span class="hop" style="animation-delay:310ms">Author</span></span></a>
+</div>
 
 <h1>OurSharedCode</h1>
 
@@ -130,7 +290,7 @@ prompt before I change it.</p>
 <h2 style="margin-top:3rem">Games</h2>
 <p>Two party games for friends and family. Everyone picks an absurd answer to
 each question, the game mixes the answers into little stories, and each story
-becomes a cartoon. They are free, in fifteen languages, with nothing to sign up
+becomes a cartoon. They are free, in twenty-three languages, with nothing to sign up
 for.</p>
 
 <a class="card" href="https://www.funny-family.oursharedcode.com/">
@@ -140,6 +300,134 @@ for.</p>
   in the browser.</p>
   <span class="go">Meet the games →</span>
 </a>
+
+<!-- Appended 19 October 2026 (funnyone Step 84, task B-22): the sheet the
+     Support Author button opens. The five rails are the games' own, in the
+     games' order (PayID, GitHub Sponsors, Lightning, Ko-fi, Buy Me a Coffee).
+     PayID, Lightning, Ko-fi and Buy Me a Coffee are the books page's, from
+     content.mjs; GitHub Sponsors is the games' (their /api/config). The
+     Lightning code and wallet link are made from LIGHTNING_ADDRESS by
+     lightning.mjs, and `node build.mjs` stops if any of these drifts from
+     content.mjs. When one changes, change it there first, then here. The
+     page counts nothing and sends nothing: the privacy policy says so under
+     Tips. -->
+<section popover id="support" class="gift-pop" tabindex="-1" aria-labelledby="support-h">
+  <div class="gc-head">
+    <span class="gc-icon" aria-hidden="true">&#9829;</span>
+    <h2 class="gc-title" id="support-h">Support Author</h2>
+    <button type="button" class="gc-close" popovertarget="support" popovertargetaction="hide" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+  <p class="gc-sub">A voluntary gift: nothing is owed and nothing unlocks. Any amount, one time. You pay on their site, or in your own wallet or bank app &mdash; not on this page.</p>
+
+  <div class="rail rail-payid">
+    <p class="rail-title">PayID <span class="rail-note">In Australia</span></p>
+    <div class="rail-row">
+      <code dir="ltr" translate="no">markwebtools@<wbr>oursharedcode.com</code>
+      <button type="button" class="gc-btn gc-primary" data-copy="markwebtools@oursharedcode.com" data-done="Copied" data-selected="Selected: copy it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5V6.5A2.5 2.5 0 0 0 13 4H6.5A2.5 2.5 0 0 0 4 6.5V13a2.5 2.5 0 0 0 2.5 2.5h2" stroke="currentColor" stroke-width="1.8"/></svg><span class="lbl" aria-live="polite">Copy PayID</span></button>
+    </div>
+    <p class="rail-hint">In your bank app, choose to pay a PayID, paste this address, and enter any amount. Your bank shows the account name before you confirm.</p>
+  </div>
+
+  <div class="rail">
+    <p class="rail-title">GitHub Sponsors</p>
+    <a class="gc-btn gc-link" href="https://github.com/sponsors/oursharedcode" target="_blank" rel="noopener noreferrer">Open GitHub Sponsors<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <p class="rail-hint">Choose a one-time tier.</p>
+  </div>
+
+  <div class="rail rail-ln">
+    <p class="rail-title">Bitcoin Lightning <span class="rail-note">Any Lightning wallet</span></p>
+    <div class="gc-qr"><svg class="qr" viewBox="0 0 45 45" shape-rendering="crispEdges" role="img" aria-label="QR code"><rect width="45" height="45" fill="#fff"/><path fill="#000" d="M4 4h7v1h-7zM12 4h7v1h-7zM21 4h1v1h-1zM24 4h2v1h-2zM27 4h1v1h-1zM29 4h1v1h-1zM34 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM14 5h1v1h-1zM16 5h2v1h-2zM20 5h6v1h-6zM27 5h2v1h-2zM34 5h1v1h-1zM40 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM13 6h1v1h-1zM17 6h2v1h-2zM23 6h1v1h-1zM25 6h2v1h-2zM29 6h1v1h-1zM32 6h1v1h-1zM34 6h1v1h-1zM36 6h3v1h-3zM40 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h4v1h-4zM18 7h5v1h-5zM24 7h3v1h-3zM29 7h1v1h-1zM32 7h1v1h-1zM34 7h1v1h-1zM36 7h3v1h-3zM40 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM15 8h1v1h-1zM17 8h1v1h-1zM19 8h3v1h-3zM23 8h1v1h-1zM25 8h2v1h-2zM31 8h1v1h-1zM34 8h1v1h-1zM36 8h3v1h-3zM40 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h3v1h-3zM20 9h2v1h-2zM25 9h1v1h-1zM31 9h2v1h-2zM34 9h1v1h-1zM40 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM34 10h7v1h-7zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h5v1h-5zM23 11h2v1h-2zM26 11h1v1h-1zM28 11h1v1h-1zM32 11h1v1h-1zM4 12h1v1h-1zM8 12h1v1h-1zM10 12h3v1h-3zM15 12h1v1h-1zM17 12h2v1h-2zM22 12h1v1h-1zM25 12h1v1h-1zM30 12h2v1h-2zM33 12h5v1h-5zM40 12h1v1h-1zM4 13h1v1h-1zM6 13h2v1h-2zM12 13h1v1h-1zM15 13h1v1h-1zM17 13h1v1h-1zM20 13h1v1h-1zM23 13h4v1h-4zM29 13h2v1h-2zM36 13h2v1h-2zM40 13h1v1h-1zM6 14h2v1h-2zM10 14h1v1h-1zM15 14h2v1h-2zM18 14h1v1h-1zM20 14h1v1h-1zM23 14h5v1h-5zM31 14h2v1h-2zM35 14h2v1h-2zM40 14h1v1h-1zM4 15h1v1h-1zM6 15h3v1h-3zM14 15h2v1h-2zM18 15h1v1h-1zM21 15h1v1h-1zM24 15h2v1h-2zM28 15h1v1h-1zM30 15h1v1h-1zM35 15h1v1h-1zM38 15h1v1h-1zM8 16h3v1h-3zM12 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM19 16h1v1h-1zM22 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM32 16h1v1h-1zM36 16h5v1h-5zM4 17h1v1h-1zM7 17h2v1h-2zM11 17h1v1h-1zM14 17h2v1h-2zM19 17h5v1h-5zM29 17h1v1h-1zM31 17h1v1h-1zM34 17h3v1h-3zM39 17h2v1h-2zM4 18h3v1h-3zM8 18h1v1h-1zM10 18h3v1h-3zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h2v1h-2zM25 18h1v1h-1zM32 18h2v1h-2zM35 18h1v1h-1zM5 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM11 19h5v1h-5zM17 19h1v1h-1zM20 19h1v1h-1zM23 19h3v1h-3zM27 19h2v1h-2zM30 19h2v1h-2zM36 19h1v1h-1zM38 19h3v1h-3zM5 20h2v1h-2zM8 20h3v1h-3zM13 20h3v1h-3zM17 20h2v1h-2zM21 20h4v1h-4zM26 20h1v1h-1zM29 20h1v1h-1zM31 20h1v1h-1zM33 20h1v1h-1zM36 20h1v1h-1zM39 20h1v1h-1zM9 21h1v1h-1zM13 21h1v1h-1zM15 21h2v1h-2zM18 21h1v1h-1zM22 21h3v1h-3zM28 21h1v1h-1zM32 21h3v1h-3zM36 21h2v1h-2zM39 21h1v1h-1zM5 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM13 22h1v1h-1zM18 22h5v1h-5zM24 22h2v1h-2zM32 22h1v1h-1zM36 22h1v1h-1zM39 22h1v1h-1zM6 23h2v1h-2zM11 23h2v1h-2zM14 23h1v1h-1zM17 23h1v1h-1zM19 23h2v1h-2zM24 23h1v1h-1zM28 23h1v1h-1zM31 23h1v1h-1zM38 23h2v1h-2zM5 24h3v1h-3zM10 24h1v1h-1zM14 24h2v1h-2zM17 24h4v1h-4zM24 24h5v1h-5zM33 24h1v1h-1zM39 24h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM14 25h3v1h-3zM19 25h3v1h-3zM23 25h1v1h-1zM26 25h6v1h-6zM33 25h2v1h-2zM36 25h3v1h-3zM40 25h1v1h-1zM8 26h3v1h-3zM14 26h3v1h-3zM19 26h1v1h-1zM23 26h1v1h-1zM25 26h2v1h-2zM28 26h1v1h-1zM30 26h3v1h-3zM37 26h3v1h-3zM5 27h3v1h-3zM12 27h1v1h-1zM15 27h2v1h-2zM18 27h1v1h-1zM20 27h3v1h-3zM26 27h1v1h-1zM29 27h2v1h-2zM32 27h9v1h-9zM4 28h2v1h-2zM7 28h1v1h-1zM10 28h4v1h-4zM15 28h2v1h-2zM18 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM27 28h1v1h-1zM30 28h1v1h-1zM33 28h1v1h-1zM37 28h1v1h-1zM40 28h1v1h-1zM4 29h5v1h-5zM11 29h3v1h-3zM16 29h1v1h-1zM21 29h1v1h-1zM25 29h2v1h-2zM29 29h1v1h-1zM31 29h1v1h-1zM33 29h3v1h-3zM38 29h2v1h-2zM6 30h1v1h-1zM9 30h3v1h-3zM14 30h3v1h-3zM18 30h2v1h-2zM21 30h2v1h-2zM25 30h1v1h-1zM27 30h3v1h-3zM33 30h3v1h-3zM37 30h1v1h-1zM39 30h1v1h-1zM7 31h1v1h-1zM14 31h11v1h-11zM28 31h1v1h-1zM32 31h1v1h-1zM36 31h2v1h-2zM39 31h1v1h-1zM4 32h2v1h-2zM7 32h4v1h-4zM12 32h5v1h-5zM19 32h5v1h-5zM29 32h2v1h-2zM32 32h5v1h-5zM39 32h1v1h-1zM12 33h2v1h-2zM15 33h1v1h-1zM17 33h2v1h-2zM20 33h4v1h-4zM25 33h1v1h-1zM27 33h1v1h-1zM30 33h1v1h-1zM32 33h1v1h-1zM36 33h1v1h-1zM38 33h1v1h-1zM4 34h7v1h-7zM12 34h4v1h-4zM17 34h5v1h-5zM24 34h1v1h-1zM28 34h2v1h-2zM32 34h1v1h-1zM34 34h1v1h-1zM36 34h2v1h-2zM4 35h1v1h-1zM10 35h1v1h-1zM17 35h2v1h-2zM20 35h3v1h-3zM27 35h2v1h-2zM31 35h2v1h-2zM36 35h3v1h-3zM4 36h1v1h-1zM6 36h3v1h-3zM10 36h1v1h-1zM12 36h4v1h-4zM17 36h2v1h-2zM21 36h3v1h-3zM26 36h1v1h-1zM32 36h5v1h-5zM39 36h2v1h-2zM4 37h1v1h-1zM6 37h3v1h-3zM10 37h1v1h-1zM13 37h2v1h-2zM16 37h1v1h-1zM18 37h1v1h-1zM20 37h1v1h-1zM23 37h1v1h-1zM27 37h4v1h-4zM32 37h1v1h-1zM34 37h1v1h-1zM37 37h3v1h-3zM4 38h1v1h-1zM6 38h3v1h-3zM10 38h1v1h-1zM14 38h5v1h-5zM20 38h2v1h-2zM25 38h3v1h-3zM30 38h1v1h-1zM32 38h6v1h-6zM39 38h1v1h-1zM4 39h1v1h-1zM10 39h1v1h-1zM13 39h2v1h-2zM19 39h1v1h-1zM21 39h3v1h-3zM25 39h1v1h-1zM30 39h5v1h-5zM36 39h1v1h-1zM38 39h3v1h-3zM4 40h7v1h-7zM12 40h6v1h-6zM20 40h3v1h-3zM26 40h1v1h-1zM29 40h3v1h-3zM34 40h2v1h-2zM38 40h1v1h-1zM40 40h1v1h-1z"/></svg></div>
+    <p class="gc-addr"><code dir="ltr" translate="no">curvyhockey439@<wbr>walletofsatoshi.com</code></p>
+    <div class="gc-actions">
+      <a class="gc-btn gc-primary" href="lightning:LNURL1DP68GURN8GHJ7AMPD3KX2AR0VEEKZAR0WD5XJTNRDAKJ7TNHV4KXCTTTDEHHWM30D3H82UNVWQHKXATJWEUKSMMRDDJHJDPN8YWCRK6L"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5v-9Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 9.5h16" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="14.5" r="1.4" fill="currentColor"/></svg>Open in wallet</a>
+      <button type="button" class="gc-btn" data-copy="curvyhockey439@walletofsatoshi.com" data-done="Copied" data-selected="Selected: copy it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5V6.5A2.5 2.5 0 0 0 13 4H6.5A2.5 2.5 0 0 0 4 6.5V13a2.5 2.5 0 0 0 2.5 2.5h2" stroke="currentColor" stroke-width="1.8"/></svg><span class="lbl" aria-live="polite">Copy address</span></button>
+    </div>
+    <p class="rail-hint">Scan the code with your wallet app, or copy the address into it.</p>
+  </div>
+
+  <div class="gifts">
+    <a class="gc-btn btn-kofi" href="https://ko-fi.com/markwebtools" target="_blank" rel="noopener noreferrer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h12a1 1 0 0 1 1 1v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V6a1 1 0 0 1 1-1Z" fill="currentColor" opacity=".95"/><path d="M17 7h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9.6 8.6c.7-.8 1.9-.5 2.1.5.2-1 1.4-1.3 2.1-.5.6.7.3 1.7-.6 2.4l-1.5 1.2-1.5-1.2c-.9-.7-1.2-1.7-.6-2.4Z" fill="#ff5e5b"/><path d="M4 20h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Support me on Ko-fi</a>
+    <a class="gc-btn btn-bmc" href="https://buymeacoffee.com/markwebtools" target="_blank" rel="noopener noreferrer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V8Z" fill="currentColor"/><path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 5.2c0-.8 1-.9 1-1.7M11 5.2c0-.8 1-.9 1-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4 20.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Buy me a coffee</a>
+  </div>
+</section>
+
+<noscript><style>[data-copy] { display: none; }</style></noscript>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  if (typeof root.showPopover !== 'function') return;
+  const sheet = document.getElementById('support');
+  let opener = null;
+
+  root.classList.add('pop');
+  sheet.setAttribute('role', 'dialog');
+  for (const a of document.querySelectorAll('a[data-gift]')) a.setAttribute('aria-haspopup', 'dialog');
+
+  function open(from) {
+    opener = from;
+    sheet.showPopover();
+    sheet.focus({ preventScroll: true });
+  }
+
+  // Back to the button that opened it, so a keyboard reader carries on from
+  // where they were.
+  sheet.addEventListener('toggle', (e) => {
+    if (e.newState === 'closed' && opener) {
+      opener.focus({ preventScroll: true });
+      opener = null;
+    }
+  });
+
+  // A copy that the browser refuses (no clipboard access) selects the address
+  // instead, and the button says so.
+  async function copy(btn) {
+    const lbl = btn.querySelector('.lbl');
+    if (!btn.dataset.label) btn.dataset.label = lbl.textContent;
+    let msg = btn.dataset.done;
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy);
+    } catch (err) {
+      const range = document.createRange();
+      range.selectNodeContents(btn.closest('.rail').querySelector('code'));
+      const sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      msg = btn.dataset.selected;
+    }
+    lbl.textContent = msg;
+    btn.classList.add('is-done');
+    clearTimeout(btn.doneTimer);
+    btn.doneTimer = setTimeout(() => {
+      lbl.textContent = btn.dataset.label;
+      btn.classList.remove('is-done');
+    }, 2200);
+  }
+
+  document.addEventListener('click', (e) => {
+    const gift = e.target.closest('a[data-gift]');
+    if (gift) {
+      e.preventDefault();
+      open(gift);
+      return;
+    }
+    const btn = e.target.closest('[data-copy]');
+    if (btn) {
+      copy(btn);
+      return;
+    }
+    // A click on the dimmed page around the open sheet lands on the sheet
+    // itself; close it, as a tap outside should.
+    if (e.target === sheet && sheet.matches(':popover-open')) {
+      const r = sheet.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) sheet.hidePopover();
+    }
+  });
+
+  // A link to …/#support opens it.
+  if (location.hash === '#support') open(null);
+})();
+</script>
 
 <hr>
 

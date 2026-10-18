@@ -22,7 +22,7 @@
  * way nobody who doesn't read Arabic would notice.
  */
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -797,6 +797,27 @@ for (const locale of LOCALES) {
     mkdirSync(dir, { recursive: true });
     writeFileSync(join(dir, 'index.html'), page(locale), 'utf8');
     written += 1;
+  }
+}
+
+// The home page's Support Author sheet (index.html, written by hand, funnyone
+// Step 84) repeats this page's rails and shows the Lightning code made from
+// LIGHTNING_ADDRESS. A copy that no longer matches would send a gift to the
+// wrong place, so the build stops rather than let one stand. It checks the
+// committed home page, not the OUT_DIR scratch copy.
+{
+  const home = readFileSync(join(here, 'index.html'), 'utf8');
+  for (const [what, value] of [
+    ['the PayID', PAYID],
+    ['the Lightning address', LIGHTNING_ADDRESS],
+    ['the Lightning wallet link', `href="${LIGHTNING_URI}"`],
+    ['the Lightning code', qrSvg('QR code')],
+    ['the Ko-fi page', KOFI_URL],
+    ['the Buy Me a Coffee page', BMC_URL],
+  ]) {
+    if (!home.includes(value)) {
+      throw new Error(`index.html's Support Author sheet no longer has ${what}: ${value.slice(0, 60)}`);
+    }
   }
 }
 
