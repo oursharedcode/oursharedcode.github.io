@@ -35,7 +35,7 @@
 
 // Shared across every locale — never translated, never localised.
 export const KOFI_URL = 'https://ko-fi.com/markwebtools';
-export const BMC_URL = 'https://buymeacoffee.com/freeenglishbooks';
+export const BMC_URL = 'https://buymeacoffee.com/markwebtools';
 export const BOOKS_URL = 'https://freeieltsbooks.net/';
 export const BASE_URL = 'https://www.oursharedcode.com/free-english-books';
 
