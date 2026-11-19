@@ -1,8 +1,8 @@
 /**
- * The page, in eleven languages. One record per locale; build.mjs turns each
+ * The page, in twelve languages. One record per locale; build.mjs turns each
  * into a standalone HTML file.
  *
- * The English record is the original. It is the source the other ten were
+ * The English record is the original. It is the source the other eleven were
  * translated from, and it is the only one the owner wrote himself, so it is
  * the one that moves first when anything changes.
  *
@@ -62,11 +62,11 @@ export const COLLECTOR_URL = process.env.COLLECTOR_URL || 'https://stats.ourshar
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es', 'bn', 'ur'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es', 'bn', 'ur', 'ru'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
-// eleven audiences and should describe them identically to a crawler.
+// twelve audiences and should describe them identically to a crawler.
 export const BCP47 = {
   en: 'en',
   hi: 'hi',
@@ -79,6 +79,7 @@ export const BCP47 = {
   es: 'es',
   bn: 'bn',
   ur: 'ur',
+  ru: 'ru',
 };
 
 export const RTL = ['ar', 'ur'];
@@ -89,7 +90,7 @@ export const CONTENT = {
     title: 'From Band 5.5 to Band 8 — A True Story',
     description:
       'How I went from band 5.5 to band 8 in nineteen months, and why I wrote free English exam preparation books.',
-    // The label the "English" button carries on the other ten pages. It is
+    // The label the "English" button carries on the other eleven pages. It is
     // written in English on purpose: a reader who cannot read the page they
     // landed on has to recognise this word without reading the page.
     englishLabel: 'English',
@@ -625,5 +626,59 @@ export const CONTENT = {
     tipNote:
       'کوئی بھی رقم، ایک بار۔ آپ ادائیگی ان کی سائٹ پر، یا اپنے والیٹ یا بینک ایپ میں کرتے ہیں &mdash; اس صفحے پر نہیں۔',
     back: 'کتابوں کی طرف واپس جائیں',
+  },
+
+  // -------------------------------------------------------------- Russian --
+  //
+  // Added 2026-11-20, the same day as the site's own ru promotion (ielts_books
+  // repo — see steering/adding-a-locale.md and changelog.md). title <-
+  // supportTitle, back <- backHome, and the tip's noun list <- the cost clause
+  // inside disclaimerP5, all copied verbatim from site/src/i18n/ru.json rather
+  // than translated fresh here, for the same reason the other locales are. The
+  // rest is a translation of the en block (as of e3bef01) that went to the
+  // native reviewer with the books site's ru strings on 2026-11-19. Russian
+  // past-tense verbs carry gender: these are masculine (создал, начинал,
+  // говорил, решил), as in the pl, es, pt-br and ur blocks; the owner confirmed
+  // them on 2026-11-19.
+  ru: {
+    title: 'От band 5.5 до band 8 — реальная история',
+    description:
+      'Как я за девятнадцать месяцев поднялся с band 5.5 до band 8 и почему написал бесплатные книги для подготовки к экзамену по английскому.',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'Русский',
+    lede: 'Привет, друзья!<br>\n  Я создал <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    affiliation:
+      'Это моя личная страница &mdash; она не входит в тот сайт, не аффилирована с\n  IELTS, British Council, IDP или Cambridge Assessment English, не одобрена ими и\n  никак с ними не связана.',
+    story: [
+      'Я начинал с band 5.5.',
+      'Первым изменился не мой английский. Я говорил себе <em>ты сможешь</em> &mdash;\n  а в те дни, когда в это не верилось, говорил себе это снова. Мотивация кажется\n  самым непрактичным пунктом в этом списке. Именно благодаря ей всё остальное\n  продлилось девятнадцать месяцев, а не две недели.',
+      'Потом я перестал писать общими словами. Я писал <em>что-то плохое</em> там,\n  где имел в виду <em>экономическую катастрофу</em>. Именно эта расплывчатость\n  больше всего тянула мой балл вниз &mdash; идеи были, а язык делал их плоскими.\n  Я завёл тетрадь коллокаций, то есть слов, которые живут рядом друг с другом, и\n  пополнял её, пока фразы не стали приходить сами, без поиска.',
+      'Готовясь к Speaking, я записывал свой голос и слушал записи. Это неприятно, но\n  это самый быстрый способ услышать то, что слышит экзаменатор. Потом я слушал\n  новости и подкасты ради ритма, а не ради лексики &mdash; где человек с беглой\n  речью замедляется, сливает слова, останавливается &mdash; и подражал этому.',
+      'Девятнадцать месяцев ежедневной практики подняли меня с 5.5 до 8.',
+      'Потом я решил поделиться тем, к чему пришёл, в виде бесплатных книг для\n  подготовки к экзамену по английскому. Их можно скачать бесплатно, без\n  регистрации и без учётной записи, на\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    ],
+    tip:
+      'Здесь можно оставить добровольные чаевые. Они идут на оплату хостинга, домена\n  и перевода &mdash; ничего не продаётся, и чтобы пользоваться любой из книг,\n  платить не обязательно.',
+    kofi: 'Поддержать меня на Ko-fi',
+    bmc: 'Угостить меня кофе',
+    lnSub: 'Сказать спасибо &mdash; небольшие чаевые',
+    payid: 'PayID (Австралия)',
+    payidSub: 'Небольшие чаевые приветствуются, дружище',
+    lnCardSub: 'Любая сумма, с любого кошелька Lightning.',
+    lnOpen: 'Открыть в кошельке',
+    lnCopy: 'Скопировать адрес',
+    lnHelp: 'Отсканируйте код приложением кошелька или скопируйте в него адрес.',
+    payidCardSub: 'Для счетов в австралийских банках.',
+    payidCopy: 'Скопировать PayID',
+    payidHelp:
+      'В приложении банка выберите платёж по PayID, вставьте этот адрес и введите любую сумму. Перед подтверждением банк покажет имя владельца счёта.',
+    close: 'Закрыть',
+    copied: 'Скопировано',
+    selected: 'Выделено: скопируйте',
+    qr: 'QR-код',
+    tipNote:
+      'Любая сумма, один раз. Вы платите на их сайте или в своём кошельке либо банковском приложении &mdash; не на этой странице.',
+    back: 'Назад к книгам',
   },
 };

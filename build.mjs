@@ -1,5 +1,5 @@
 /**
- * Build the story page in eleven languages.
+ * Build the story page in twelve languages.
  *
  *   node build.mjs
  *
@@ -7,7 +7,7 @@
  *
  *   free-english-books/index.html          canonical English
  *   free-english-books/en/index.html       English at the /en postfix
- *   free-english-books/{hi,vi,pt-br,zh,ar,zh-hant,pl,es,bn,ur}/index.html
+ *   free-english-books/{hi,vi,pt-br,zh,ar,zh-hant,pl,es,bn,ur,ru}/index.html
  *
  * No install step: GitHub Pages serves whatever is committed here, so the
  * generated HTML is committed alongside this script, and so are the two small
@@ -16,7 +16,7 @@
  * changes.
  *
  * Why generate at all, when the repo has three static files and no toolchain:
- * the eleven pages differ only in their text. Hand-maintaining eleven copies
+ * the twelve pages differ only in their text. Hand-maintaining twelve copies
  * of the stylesheet, the hreflang block, the four gift buttons and their two
  * cards is how the Arabic page ends up a version behind the English one, in a
  * way nobody who doesn't read Arabic would notice.
@@ -57,7 +57,7 @@ function alternates(locale) {
 }
 
 /*
-  The "English" button, on the ten translated pages only.
+  The "English" button, on the eleven translated pages only.
 
   It is deliberately not styled like the four gift buttons: those are filled,
   each in its own colour, and they are the only things on the page anyone is
@@ -65,7 +65,7 @@ function alternates(locale) {
   read as a fifth offer. This one is an outlined pill, quiet, above the
   heading, where a reader who cannot read the page will look first.
 
-  The label stays the English word "English" in all ten. Localising it to
+  The label stays the English word "English" in all eleven. Localising it to
   "अंग्रेज़ी" would be correct and useless: the person who needs this button is
   the person who cannot read the page it sits on.
 */
@@ -83,8 +83,8 @@ function englishButton(c) {
 `;
 }
 
-// On the two English pages, the same slot carries the other ten languages, so
-// the switch works in both directions rather than only inwards.
+// On the two English pages, the same slot carries the other eleven languages,
+// so the switch works in both directions rather than only inwards.
 function languageRow(current) {
   const links = LOCALES.filter((l) => l !== 'en' && l !== current)
     .map(
