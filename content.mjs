@@ -1,8 +1,8 @@
 /**
- * The page, in twelve languages. One record per locale; build.mjs turns each
+ * The page, in fourteen languages. One record per locale; build.mjs turns each
  * into a standalone HTML file.
  *
- * The English record is the original. It is the source the other eleven were
+ * The English record is the original. It is the source the other thirteen were
  * translated from, and it is the only one the owner wrote himself, so it is
  * the one that moves first when anything changes.
  *
@@ -62,11 +62,11 @@ export const COLLECTOR_URL = process.env.COLLECTOR_URL || 'https://stats.ourshar
 // Locale slug -> URL segment. These match freeieltsbooks.net's slugs exactly
 // (site/src/i18n/index.ts `locales`), so /free-english-books/pt-br pairs with
 // freeieltsbooks.net/pt-br and a reader never has to guess the other half.
-export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es', 'bn', 'ur', 'ru'];
+export const LOCALES = ['en', 'hi', 'vi', 'pt-br', 'zh', 'ar', 'zh-hant', 'pl', 'es', 'bn', 'ur', 'ru', 'uk', 'fa'];
 
 // BCP-47 tags for hreflang and og:locale. Copied from the books site's `bcp47`
 // map for the same reason the strings are: the two sites describe the same
-// twelve audiences and should describe them identically to a crawler.
+// fourteen audiences and should describe them identically to a crawler.
 export const BCP47 = {
   en: 'en',
   hi: 'hi',
@@ -80,9 +80,11 @@ export const BCP47 = {
   bn: 'bn',
   ur: 'ur',
   ru: 'ru',
+  uk: 'uk',
+  fa: 'fa',
 };
 
-export const RTL = ['ar', 'ur'];
+export const RTL = ['ar', 'ur', 'fa'];
 
 export const CONTENT = {
   // -------------------------------------------------------------- English --
@@ -680,5 +682,103 @@ export const CONTENT = {
     tipNote:
       'Любая сумма, один раз. Вы платите на их сайте или в своём кошельке либо банковском приложении &mdash; не на этой странице.',
     back: 'Назад к книгам',
+  },
+  // ------------------------------------------------------------ Ukrainian --
+  //
+  // Added 2026-11-24 with the books site's uk promotion (ielts_books F29),
+  // after the native review (no changes). title <- supportTitle, back <-
+  // backHome, and the tip's noun list <- the cost clause inside disclaimerP5,
+  // all copied verbatim from site/src/i18n/uk.json. The rest is a translation of the
+  // en block, with the ru block as a guide. Ukrainian past-tense verbs carry
+  // gender: these are masculine (створив, починав, казав, вирішив), as in the
+  // ru, pl, es, pt-br and ur blocks.
+  uk: {
+    title: 'Від band 5.5 до band 8 — правдива історія',
+    description:
+      'Як я за дев’ятнадцять місяців піднявся з band 5.5 до band 8 і чому написав безкоштовні книжки для підготовки до іспиту з англійської.',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'Українська',
+    lede: 'Привіт, друзі!<br>\n  Я створив <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    affiliation:
+      'Це моя особиста сторінка &mdash; вона не є частиною того сайту, не афілійована з\n  IELTS, British Council, IDP чи Cambridge Assessment English, не схвалена ними і\n  ніяк із ними не пов’язана.',
+    story: [
+      'Я починав з band 5.5.',
+      'Першою змінилася не моя англійська. Я казав собі <em>ти зможеш</em> &mdash;\n  а в ті дні, коли в це не вірилося, казав собі це знову. Мотивація здається\n  найменш практичним пунктом у цьому списку. Саме завдяки їй усе інше\n  тривало дев’ятнадцять місяців, а не два тижні.',
+      'Потім я перестав писати загальними словами. Я писав <em>щось погане</em> там,\n  де мав на увазі <em>економічну катастрофу</em>. Саме ця розмитість\n  найбільше тягнула мій бал донизу &mdash; ідеї були, а мова робила їх пласкими.\n  Я завів зошит колокацій, тобто слів, які живуть поруч одне з одним, і\n  поповнював його, доки фрази не почали приходити самі, без пошуку.',
+      'Готуючись до Speaking, я записував свій голос і слухав записи. Це неприємно, але\n  це найшвидший спосіб почути те, що чує екзаменатор. Потім я слухав\n  новини й подкасти заради ритму, а не заради лексики &mdash; де людина з вільним\n  мовленням сповільнюється, зливає слова, зупиняється &mdash; і наслідував це.',
+      'Дев’ятнадцять місяців щоденної практики підняли мене з 5.5 до 8.',
+      'Потім я вирішив поділитися тим, до чого дійшов, у вигляді безкоштовних книжок для\n  підготовки до іспиту з англійської. Їх можна завантажити безкоштовно, без\n  реєстрації й без облікового запису, на\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    ],
+    tip:
+      'Тут можна залишити добровільні чайові. Вони покривають витрати на хостинг, домен\n  і переклад &mdash; нічого не продається, і щоб користуватися будь-якою з книжок,\n  платити не обов’язково.',
+    kofi: 'Підтримати мене на Ko-fi',
+    bmc: 'Пригостити мене кавою',
+    lnSub: 'Сказати дякую &mdash; невеликі чайові',
+    payid: 'PayID (Австралія)',
+    payidSub: 'Невеликі чайові вітаються, друже',
+    lnCardSub: 'Будь-яка сума, з будь-якого гаманця Lightning.',
+    lnOpen: 'Відкрити в гаманці',
+    lnCopy: 'Скопіювати адресу',
+    lnHelp: 'Відскануйте код застосунком гаманця або скопіюйте в нього адресу.',
+    payidCardSub: 'Для рахунків в австралійських банках.',
+    payidCopy: 'Скопіювати PayID',
+    payidHelp:
+      'У застосунку банку виберіть платіж за PayID, вставте цю адресу й введіть будь-яку суму. Перед підтвердженням банк покаже ім’я власника рахунку.',
+    close: 'Закрити',
+    copied: 'Скопійовано',
+    selected: 'Виділено: скопіюйте',
+    qr: 'QR-код',
+    tipNote:
+      'Будь-яка сума, один раз. Ви платите на їхньому сайті або у своєму гаманці чи банківському застосунку &mdash; не на цій сторінці.',
+    back: 'Назад до книжок',
+  },
+  // -------------------------------------------------------------- Persian --
+  //
+  // Added 2026-11-24 with the books site's fa promotion (ielts_books F29),
+  // after the native review. title
+  // <- supportTitle, back <- backHome, and the tip's noun list <- the cost
+  // clause inside disclaimerP5, all copied verbatim from site/src/i18n/fa.json. The
+  // rest is a translation of the en block. Persian verbs carry no gender.
+  fa: {
+    title: 'از band 5.5 تا band 8 — یک داستان واقعی',
+    description:
+      'چطور در نوزده ماه از band 5.5 به band 8 رسیدم، و چرا کتاب‌های رایگان آمادگی برای آزمون انگلیسی نوشتم.',
+    englishLabel: 'English',
+    // The language's own name, used in the row on the English pages.
+    nativeName: 'فارسی',
+    lede: 'سلام دوستان،<br>\n  من <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a> را ساختم.',
+    affiliation:
+      'این صفحه شخصیِ خود من است &mdash; بخشی از آن سایت نیست، و به IELTS،\n  British Council، IDP یا Cambridge Assessment English وابسته نیست، از سوی آن‌ها\n  تأیید نشده و هیچ ارتباطی با آن‌ها ندارد.',
+    story: [
+      'من از band 5.5 شروع کردم.',
+      'اولین چیزی که عوض شد انگلیسی‌ام نبود. به خودم می‌گفتم <em>تو می‌توانی</em> &mdash;\n  و روزهایی که این حرف درست به نظر نمی‌رسید، باز هم به خودم می‌گفتم. انگیزه\n  غیرعملی‌ترین چیزِ این فهرست به نظر می‌رسد. ولی دلیلِ اینکه بقیه‌اش به‌جای دو هفته\n  نوزده ماه دوام آورد، همین بود.',
+      'بعد دیگر با کلمه‌های کلی ننوشتم. <em>یک چیز بد</em> می‌نوشتم، در حالی که منظورم\n  <em>یک فاجعه‌ی اقتصادی</em> بود. بیشترِ چیزی که نمره‌ام را پایین نگه می‌داشت همین\n  ابهام بود &mdash; ایده‌ها بودند، و زبان آن‌ها را بی‌رنگ می‌کرد. دفترچه‌ای از هم‌آیی‌ها\n  درست کردم، یعنی کلمه‌هایی که کنار هم زندگی می‌کنند، و آن‌قدر به آن اضافه کردم که\n  عبارت‌ها بی‌آنکه دنبالشان بگردم، خودشان می‌آمدند.',
+      'برای Speaking، صدای خودم را ضبط می‌کردم و دوباره گوش می‌دادم. ناخوشایند است، و\n  سریع‌ترین راه برای شنیدنِ چیزی است که ممتحن می‌شنود. بعد اخبار و پادکست‌ها را\n  به خاطر ریتمشان گوش می‌دادم، نه به خاطر واژگانشان &mdash; جایی که یک گوینده‌ی روان\n  آهسته می‌کند، کلمه‌ها را به هم می‌چسباند، مکث می‌کند &mdash; و از آن تقلید می‌کردم.',
+      'نوزده ماه تمرین روزانه مرا از 5.5 به 8 رساند.',
+      'بعد از آن تصمیم گرفتم آنچه را فهمیده بودم، به شکل کتاب‌های رایگان آمادگی برای\n  آزمون انگلیسی با دیگران به اشتراک بگذارم. دانلودشان رایگان است، بدون ثبت‌نام و\n  بدون حساب کاربری، در\n  <a href="' + BOOKS_URL + '" rel="noopener">freeieltsbooks.net</a>.',
+    ],
+    tip:
+      'اینجا می‌توانید یک کمک مالی داوطلبانه بگذارید. هزینه‌های میزبانی، دامنه و ترجمه را\n  پوشش می‌دهد &mdash; هیچ چیزی فروخته نمی‌شود، و برای استفاده از هیچ‌کدام از\n  کتاب‌ها لازم نیست.',
+    kofi: 'در Ko-fi از من حمایت کنید',
+    bmc: 'یک قهوه مهمانم کنید',
+    lnSub: 'تشکر کنید &mdash; یک کمک کوچک',
+    payid: 'PayID (استرالیا)',
+    payidSub: 'کمک‌های کوچک هم خوش‌آمدند، رفیق',
+    lnCardSub: 'هر مبلغی، از هر کیف پول Lightning.',
+    lnOpen: 'باز کردن در کیف پول',
+    lnCopy: 'کپی نشانی',
+    lnHelp: 'کد را با برنامه‌ی کیف پولتان اسکن کنید، یا نشانی را کپی کنید و در آن بگذارید.',
+    payidCardSub: 'برای حساب‌های بانکی استرالیا.',
+    payidCopy: 'کپی PayID',
+    payidHelp:
+      'در برنامه‌ی بانکتان پرداخت به PayID را انتخاب کنید، این نشانی را بچسبانید و هر مبلغی را وارد کنید. بانکتان پیش از تأیید، نام صاحب حساب را نشان می‌دهد.',
+    close: 'بستن',
+    copied: 'کپی شد',
+    selected: 'انتخاب شد: آن را کپی کنید',
+    qr: 'کد QR',
+    tipNote:
+      'هر مبلغی، یک بار. پرداخت را در سایت خودشان، یا در کیف پول یا برنامه‌ی بانکی خودتان انجام می‌دهید &mdash; نه در این صفحه.',
+    back: 'بازگشت به کتاب‌ها',
   },
 };

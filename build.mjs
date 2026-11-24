@@ -1,5 +1,5 @@
 /**
- * Build the story page in twelve languages.
+ * Build the story page in fourteen languages.
  *
  *   node build.mjs
  *
@@ -7,7 +7,7 @@
  *
  *   free-english-books/index.html          canonical English
  *   free-english-books/en/index.html       English at the /en postfix
- *   free-english-books/{hi,vi,pt-br,zh,ar,zh-hant,pl,es,bn,ur,ru}/index.html
+ *   free-english-books/{hi,vi,pt-br,zh,ar,zh-hant,pl,es,bn,ur,ru,uk,fa}/index.html
  *
  * No install step: GitHub Pages serves whatever is committed here, so the
  * generated HTML is committed alongside this script, and so are the two small
@@ -16,7 +16,7 @@
  * changes.
  *
  * Why generate at all, when the repo has three static files and no toolchain:
- * the twelve pages differ only in their text. Hand-maintaining twelve copies
+ * the fourteen pages differ only in their text. Hand-maintaining fourteen copies
  * of the stylesheet, the hreflang block, the four gift buttons and their two
  * cards is how the Arabic page ends up a version behind the English one, in a
  * way nobody who doesn't read Arabic would notice.
@@ -83,7 +83,7 @@ function englishButton(c) {
 `;
 }
 
-// On the two English pages, the same slot carries the other eleven languages,
+// On the two English pages, the same slot carries the other thirteen languages,
 // so the switch works in both directions rather than only inwards.
 function languageRow(current) {
   const links = LOCALES.filter((l) => l !== 'en' && l !== current)
